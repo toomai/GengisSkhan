@@ -1,15 +1,33 @@
 [
 	{
-		"user_id":"",
-		"name":"",
-		"password":"",
-		"salt":"",
-		"custommer":"",
+		"user_id":"Pierric Cotton",
+		"name":"Pierric Soie",
+		"password":"Carlos",
+		"salt":"qosdoqouhtebqsdg",
+		"custommer": true,
 	},{
-		"user_id":"",
-		"name":"",		
-		"password":"",
-		"salt":"",
-		"custommer":"",
+		"user_id":"Loic Stevens",
+		"name":"Carlos",		
+		"password":"123456Aminuscule*",
+		"salt":"qosdoqouhtebqsdg",
+		"custommer": true,
+	},{
+		"user_id":"Hamza Mounir",
+		"name":"Daron",		
+		"password":"Cacapipi",
+		"salt":"qosdoqouhtebqsdg",
+		"custommer": true,
+	},{
+		"user_id":"Christian Mendes",
+		"name":"Sliman",		
+		"password":"motdepasse",
+		"salt":"qosdoqouhtebqsdg",
+		"custommer": false,
+	},{
+		"user_id":"User Ultime",
+		"name":"Master Yi",		
+		"password":"Garen",
+		"salt":"qosdoqouhtebqsdg",
+		"custommer": false,
 	}
 ]
