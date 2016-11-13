@@ -1,14 +1,16 @@
 var express = require('express');
-var logger = require("./logger.js");
-var jwt = require('jsonwebtoken');
+var bodyParser = require('body-parser');
 
-var object,token;
+var logger = require("./logger.js");
+var users = require("./users.js");
+var command = require("./command.js");
 
 var start = function(callback){
     var app = express();
     _configureServer(app);
     _configureRoutes(app);
-    app.listen(config.port,callback);
+    app.listen(3000,callback);
+    
 }
 
 var stop = function(callback){
@@ -20,36 +22,70 @@ exports.stop = stop;
 
 function _configureServer(app){
 
-   object = { admin: 'admin' };
-   token = jwt.sign(object, 'token private crypte');
-   logger.info(token);
+   app.use(bodyParser.json()); 
+   app.use(bodyParser.urlencoded({ extended: true }));
 
    app.use(function(req, res, next) {
        logger.info('Request URL:'+ req.originalUrl);
        next();
     });
+
    app.use(function (req, res, next) {
-    next();
+        next();
    });
+
 }
 
 function _configureRoutes(app){
 
-    app.get('/', function (req, res) {
-        res.send('Hello World ');
+    
+    //CONNEXION
+
+    app.post('/connect/mobile', function (req, res) {
+        var login = req.body.login;
+
     });
 
-    app.post('/admin', function (req, res) {
-        logger.info(token);
-        var decoded = jwt.verify(req.query.token, 'token private crypte');
-        if(decoded.admin == 'admin'){
-            res.send('Admin only');
-        }else{
-            res.redirect('/');
-        }
+    app.post('/connect/web', function (req, res) {
+         var login = req.body.login;
+    }
+    );
+
+
+    //USER WILL A NEW COMMAND
+
+    app.get('/command/new/:login', function (req, res) {
+        var login = req.body.login;
+
     });
+
+    //USER WILL ADD A NEW PRODUCT
+    app.post('/command/add', function (req, res) {
+        var login = req.body.login;
+        var command_id = req.body.command;
+        var product = req.body.product;
+        var quantity = req.body.quantity;
+    });
+
+
+    //USER WILL PAY HIS COMMAND
+
+    app.get('/command/pay/:login/:command', function (req, res) {
+        var login = req.body.login;
+        var command_id = req.body.command;
+    });
+
+    //USER WILL END HIS COMMAND
+
+    app.get('/command/end/:login/:command', function (req, res) {
+        var login = req.body.login;
+        var command_id = req.body.command;
+
+    });
+
+    //NO ROUTE FOUND 
 
     app.use('*', function (req, res, next) {
-        res.send(404,'No route');
+        res.status(404).send('No route');
     });
 }
