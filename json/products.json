@@ -2,70 +2,70 @@
 	{
 		"product_id":"978020137962",
 		"name":"pomme",
-		"price":"1,20",
+		"price":1,20,
 		"description":"Fruit succulent produit au fin fond des collines du Bangladesh",
 		"image":"../image/pomme.jpg"		
 	},
 	{
 		"product_id":"925020137962",
 		"name":"Jus d'orange",
-		"price":"2,50",
+		"price":2,50,
 		"description":"Jus d'orange bio avec 2% de vrais oranges",
 		"image":"../image/jusorange.jpg"		
 	},
 	{
 		"product_id":"725620137564",
 		"name":"Spaghetti",
-		"price":"4,20",
+		"price":4,20,
 		"description":"Pasta de la Mama!",
 		"image":"../image/spaghetti.jpg"		
 	},
 	{
 		"product_id":"925020137564",
 		"name":"Sac poubelle ",
-		"price":"5,20",
+		"price":5,20,
 		"description":"Rouleau de 10 sacs poubelles 80L",
 		"image":"../image/sacpoubelle.jpg"		
 	},
 	{
 		"product_id":"855630137564",
 		"name":"Papier toilette",
-		"price":"10,10",
+		"price":10,10,
 		"description":"20 rouleaux de pq doux et soyeux pour postérieur en manque d'afféction",
 		"image":"../image/pq.jpg"		
 	},
 	{
 		"product_id":"855630597564",
 		"name":"Essui",
-		"price":"15,20",
+		"price":15,20,
 		"description":"Essui en cotton synthétique fabriqué à partir de cheveux de vieux",
 		"image":"../image/essui.jpg"		
 	},
 	{
 		"product_id":"965630597564",
 		"name":"Shampoing",
-		"price":"5,80",
+		"price":5,80,
 		"description":"Shampoing à base d'huile de brebis rendant la vitalité à vos cheveux",
 		"image":"../image/shampoing.jpg"		
 	},
 	{
 		"product_id":"965965597564",
 		"name":"Casserole",
-		"price":"20,50",
+		"price":20,50,
 		"description":"Une bonne grosse marmitte pour vos repas",
 		"image":"../image/casserole.jpg"		
 	},
 	{
 		"product_id":"965965154564",
 		"name":"Essui-tout",
-		"price":"10,25",
+		"price":10,25,
 		"description":"10 rouleaux d'essui-tout super étanche",
 		"image":"../image/essuitout.jpg"		
 	},
 	{
 		"product_id":"123465896464",
 		"name":"Savon",
-		"price":"3,25",
+		"price":3,25,
 		"description":"Bon savon pour sentir bon. Attention de ne pas le laisser glisser",
 		"image":"../image/savon.jpg"		
 	}

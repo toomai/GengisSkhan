@@ -2,8 +2,6 @@
 	{
 		"user_id":"820151666262",
 		"name":"Pierric Soie",
-		"password":"Carlos",
-		"salt":"qosdoqouhtebqsdg",
 		"custommer": true,
 		"commands":[  
          {  
@@ -25,30 +23,22 @@
       ]
 	},{
 		"user_id":"560151666262",
-		"name":"Carlos Stevens",		
-		"password":"123456Aminuscule*",
-		"salt":"qosdoqouhtebqsdg",
+		"name":"Carlos Stevens",
 		"custommer": true,
 		"commands":[ ]
 	},{
 		"user_id":"560964666262",
-		"name":"Daron Hamza",		
-		"password":"Cacapipi",
-		"salt":"qosdoqouhtebqsdg",
+		"name":"Daron Hamza",	
 		"custommer": true,
 		"commands":[ ]
 	},{
 		"user_id":"560964664567",
 		"name":"Sliman Christian",		
-		"password":"motdepasse",
-		"salt":"qosdoqouhtebqsdg",
 		"custommer": false,
 		"commands":[ ]
 	},{
 		"user_id":"999999999942",
 		"name":"Master Yi",		
-		"password":"Garen",
-		"salt":"qosdoqouhtebqsdg",
 		"custommer": false,
 		"commands":[ ]
 	}
