@@ -1,95 +1,82 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var path = require('path');
+
 var logger = require("./logger.js");
 var config = require("./config.js");
 var commands = require("./command.js");
 var products = require("./product.js");
-
 var users = require("./users.js");
 var command = require("./command.js");
-var path = require('path');
+
 var port = process.env.PORT || 3000;
 
-var start = function(callback){
-  var app = express();
-  var server = require('http').Server(app);
-  var io = require('socket.io')(server);
-  _configureServer(app);
-  _configureRoutes(app, io);
-  server.listen(port,callback);
+var start = function(callback) {
+    var app = express();
+    var server = require('http').Server(app);
+    var io = require('socket.io')(server);
+
+    _configureServer(app);
+    _configureRoutes(app, io);
+
+    server.listen(port, callback);
 }
 
 
-var stop = function(callback){
-  callback(null);
+var stop = function(callback) {
+    callback(null);
 }
 
 exports.start = start;
 exports.stop = stop;
 
-function _configureServer(app){
+function _configureServer(app) {
 
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(express.static('../web/'));
 
+    app.use(bodyParser.json());
 
-  app.use(function(req, res, next) {
-    logger.info('Request URL:'+ req.originalUrl);
-    next();
-  });
+    app.use(bodyParser.urlencoded({
+        extended: true
+    }));
 
-  app.use(function (req, res, next) {
-    next();
-  });
-  app.use(function(req, res, next){
-  /*  var indexPath = path.join(__dirname, '/..', '/web/');
-    express.static(indexPath);*/
-    next();
-  });
+    app.use(function(req, res, next) {
+        logger.info('Request URL:' + req.originalUrl);
+        next();
+    });
+
 }
 
-function _configureRoutes(app, io){
-  //var login global ?
-app.get('/:login', function (req, res) {
-  var login = req.params.login;
+function _configureRoutes(app, io) {
 
-  var user = users.get_user(login, function(err, data){
-    if(err || (data === undefined)){
-      res.status(403);
-    }else{
-      res.status(200);
-      res.sendFile(path.join(__dirname, '/..', '/web','/index.html'));
-    }
-  });
-});
-
-io.on('connection',function(socket){
-  console.log("A user just connected");
-});
-//CONNEXION
-
-
-//***************SOCKETS**********************
-
-
-/*
-***************SOCKETS**********************
-*  app.post('/connect/web', function (req, res) {
-*       var login = req.body.login;
-*  }
-*);
-*/
-
-
-
-    app.post('/connect/mobile', function (req, res) {
-        var login = req.body.login;
-        users.get_user(login,function(err,user){
-            if(err)
+    app.get('/:login', function(req, res) {
+        var login = req.params.login;
+        var user = users.get_user(login, function(err, data) {
+            if (err)
                 logger.info(err);
-            if(user){
+            if (data) {
+                res.status(200).sendFile(path.join(__dirname, '/..', '/web', '/index.html'));
+            } else {
+                res.status(404).send('Error happend');
+            }
+        });
+    });
+
+    io.on('connection', function(socket) {
+        logger.info("A user just connected");
+    });
+
+    //CONNEXION
+
+
+    app.post('/connect/mobile', function(req, res) {
+        var login = req.body.login;
+        users.get_user(login, function(err, user) {
+            if (err)
+                logger.info(err);
+            if (user) {
                 res.status(200).send(user);
-            }else{
+            } else {
                 res.status(404).send('Error happend');
             }
         });
@@ -98,109 +85,112 @@ io.on('connection',function(socket){
 
     //USER WILL A NEW COMMAND
 
-    app.get('/command/new/:login', function (req, res) {
+
+    app.get('/command/new/:login', function(req, res) {
         var login = req.body.login;
-        users.get_user(login,function(err,user){
-            if(err)
+        users.get_user(login, function(err, user) {
+            if (err)
                 logger.info(err);
-            if(user){
-                commands.new_command(user,function(err,command){
-                    if(err)
+            if (user) {
+                commands.new_command(user, function(err, command) {
+                    if (err)
                         logger.info(err);
-                    if(command)
-                     res.status(200).send(command);
+                    if (command)
+                        res.status(200).send(command);
                 });
-            }else{
+            } else {
                 res.status(404).send('Error happend');
             }
         });
-        
+
     });
 
     //USER WILL ADD A NEW PRODUCT
-    app.post('/command/add', function (req, res) {
+
+
+    app.post('/command/add', function(req, res) {
         var login = req.body.login;
         var command_id = req.body.command;
         var product = req.body.product;
         var quantity = req.body.quantity;
 
 
-        users.get_user(login,function(err,user){
-            if(err)
+        users.get_user(login, function(err, user) {
+            if (err)
                 logger.info(err);
-            if(user){
-                products.find_product_code(product,function(err,product){
-                  if(err)
-                    logger.info(err);
-                  if(product){
-                        commands.add_line(user,command_id,product,quantity,function(err,command){
-                            if(err)
+            if (user) {
+                products.find_product_code(product, function(err, product) {
+                    if (err)
+                        logger.info(err);
+                    if (product) {
+                        commands.add_line(user, command_id, product, quantity, function(err, command) {
+                            if (err)
                                 logger.info(err);
-                            if(command){
-                                commands.get_command(user,command_id,function(err,data){
-                                    if(err)
+                            if (command) {
+                                commands.get_command(user, command_id, function(err, data) {
+                                    if (err)
                                         logger.info(err);
-                                    if(data){
+                                    if (data) {
                                         res.status(200).send(command);
-                                    }else{
+                                    } else {
                                         res.status(404).send('Error happend');
                                     }
                                 });
                             }
-                        });       
-                  }
+                        });
+                    }
                 });
             }
-        });      
+        });
     });
 
 
-//USER WILL PAY HIS COMMAND
+    //USER WILL PAY HIS COMMAND
 
 
-    app.get('/command/pay/:login/:command', function (req, res) {
+    app.get('/command/pay/:login/:command', function(req, res) {
         var login = req.body.login;
         var command_id = req.body.command;
 
-        users.get_user(login,function(err,user){
-            if(err)
+        users.get_user(login, function(err, user) {
+            if (err)
                 logger.info(err);
-            commands.pay_command(user,command_id,function(err,command){
-                if(err)
+            commands.pay_command(user, command_id, function(err, command) {
+                if (err)
                     logger.info(err);
-                if(command){
-                  res.status(200).send(command);
-                }else{
-                   res.status(404).send('Error happend');
+                if (command) {
+                    res.status(200).send(command);
+                } else {
+                    res.status(404).send('Error happend');
                 }
             })
         });
     });
 
-//USER WILL END HIS COMMAND
+    //USER WILL END HIS COMMAND
 
 
-    app.get('/command/end/:login/:command', function (req, res) {
+    app.get('/command/end/:login/:command', function(req, res) {
         var login = req.body.login;
         var command_id = req.body.command;
-        users.get_user(login,function(err,user){
-            if(err)
+        users.get_user(login, function(err, user) {
+            if (err)
                 logger.info(err);
-            commands.end_command(user,command_id,function(err,command){
-                if(err)
+            commands.end_command(user, command_id, function(err, command) {
+                if (err)
                     logger.info(err);
-                if(command){
-                  res.status(200).send(command);
-                }else{
-                   res.status(404).send('Error happend');
+                if (command) {
+                    res.status(200).send(command);
+                } else {
+                    res.status(404).send('Error happend');
                 }
             })
         });
     });
 
-//NO ROUTE FOUND
+    //NO ROUTE FOUND
 
-app.use('*', function (req, res, next) {
-  res.status(404).send('No route');
-});
+    app.use('*', function(req, res, next) {
+        res.status(404).send('No route');
+    });
 }
