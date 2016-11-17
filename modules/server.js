@@ -9,12 +9,11 @@ var products = require("./product.js");
 var users = require("./users.js");
 var command = require("./command.js");
 
+var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
 var start = function(callback) {
-
-    var app = express();
-    var server = require('http').Server(app);
-    var io = require('socket.io')(server);
 
     _configureServer(app);
     _configureRoutes(app, io);
@@ -32,7 +31,7 @@ exports.stop = stop;
 
 function _configureServer(app) {
 
-    app.use(express.static('../web/'));
+    app.use(express.static(path.join(__dirname, 'web')));
 
     app.use(bodyParser.json());
 
@@ -55,6 +54,7 @@ function _configureRoutes(app, io) {
             if (err)
                 logger.info(err);
             if (data) {
+                //res.sendFile('/index.html');
                 res.status(200).sendFile(path.join(__dirname, '/..', '/web', '/index.html'));
             } else {
                 res.status(404).send('Error happend');

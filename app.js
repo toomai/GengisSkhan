@@ -4,14 +4,15 @@ var server = require("./modules/server.js");
 
 
 config.load(function(err){
+    
     if(err)
        logger.info(err);
 
     logger.info('Succes');
 
     server.start(function(err){
-        if(err){logger.info(err);
-        }
+        if(err)
+            logger.info(err);
     });
 
 });

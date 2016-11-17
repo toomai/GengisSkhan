@@ -20,8 +20,7 @@ var new_command = function(user,callback){
             user.commands[id] = commande;
             //Mettre à jour la DB
 
-            callback(null, user); // Send back user with new command
-            return;            
+            callback(null, user); // Send back user with new command          
           }
         }
     });
@@ -36,7 +35,6 @@ var get_command = function(user,id_command,callback){
             for(var command in user.commands){
                 if(command.command_id===id_command){
                     callback(null,command);
-                    return;
                 }
             }
             callback(new Error("Command not found "));
@@ -85,7 +83,6 @@ var add_line = function(user,id_command,product,quantity,callback){
 
 
       callback(null,command);
-      return;        
 }
 
 var remove_line = function(user,id_command,id_line,callback){
