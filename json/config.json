@@ -1,4 +1,8 @@
 ﻿{
-"host":"localhost",
-"port":3000
+    "host":"localhost",
+    "port":3000,
+    "db_url" : "",
+    "db_port":"",
+    "db_user":"",
+    "db_mdp":""
 }

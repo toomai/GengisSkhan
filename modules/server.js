@@ -9,9 +9,9 @@ var products = require("./product.js");
 var users = require("./users.js");
 var command = require("./command.js");
 
-var port = process.env.PORT || 3000;
 
 var start = function(callback) {
+
     var app = express();
     var server = require('http').Server(app);
     var io = require('socket.io')(server);
@@ -19,7 +19,7 @@ var start = function(callback) {
     _configureServer(app);
     _configureRoutes(app, io);
 
-    server.listen(port, callback);
+    server.listen(config.port, callback);
 }
 
 
