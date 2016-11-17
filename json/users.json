@@ -11,19 +11,19 @@
                {  
                   "product_id":"",
 				  "name":"",
-				  "price":,
+				  "price":0,
 				  "description":"",
-				  "image":""
+				  "image":"",
                   "quantity":""
                },
                {  
                   "product_id":"",
 				  "name":"",
-				  "price":,
+				  "price":0,
 				  "description":"",
-				  "image":""
+				  "image":"",
                   "quantity":""
-               },
+               }
             ],
             "price":"",
             "payed":""
