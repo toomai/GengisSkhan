@@ -53,7 +53,7 @@ function _configureRoutes(app, io){
 app.get('/:login', function (req, res) {
   var login = req.params.login;
 
-  var user = users.get_user_by_login(login, function(err, data){
+  var user = users.get_user(login, function(err, data){
     if(err || (data === undefined)){
       res.status(403);
     }else{
@@ -84,7 +84,7 @@ io.on('connection',function(socket){
 
     app.post('/connect/mobile', function (req, res) {
         var login = req.body.login;
-        users.get_user_by_login(login,function(err,user){
+        users.get_user(login,function(err,user){
             if(err)
                 logger.info(err);
             if(user){
