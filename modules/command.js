@@ -1,40 +1,40 @@
-var new_command = function(user){
+var new_command = function(user,callback){
     
 }
 
-var get_command = function(user,id_command){
+var get_command = function(user,id_command,callback){
     
 }
 
-var end_command = function(user,id_command){
+var end_command = function(user,id_command,callback){
     
 }
 
-var pay_command = function(user,id_command){
+var pay_command = function(user,id_command,callback){
     
 }
 
-var cancel_command = function(user,id_command){
+var cancel_command = function(user,id_command,callback){
     
 }
 
-var print_command = function(user,id_command){
+var print_command = function(user,id_command,callback){
     
 }
 
-var add_line = function(user,id_command,product,quantity){
+var add_line = function(user,id_command,product,quantity,callback){
     
 }
 
-var remove_line = function(user,id_command,id_line){
+var remove_line = function(user,id_command,id_line,callback){
     
 }
 
-var change_quantity = function(user,id_command,id_line,quantity){
+var change_quantity = function(user,id_command,id_line,quantity,callback){
     
 }
 
-var change_price = function(user,id_command,id_line,price){
+var change_price = function(user,id_command,id_line,price,callback){
     
 }
 

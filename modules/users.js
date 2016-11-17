@@ -1,4 +1,5 @@
 var userJson = require('../json/users.json');
+var connexion = function (login,callback){
 
 var connexion = function (login, callback){
     for(var key in userJson){
@@ -8,14 +9,9 @@ var connexion = function (login, callback){
     }
 }
 
-var get_user = function (login){
+var get_user = function (login,callback){
 
 }
 
-var deconnect = function (login){
-
-}
-
-exports.deconnect = deconnect;
 exports.connexion = connexion;
 exports.get_user = get_user;
