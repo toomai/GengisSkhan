@@ -10,12 +10,20 @@
             "lines":[  
                {  
                   "product_id":"",
+				  "name":"",
+				  "price":,
+				  "description":"",
+				  "image":""
                   "quantity":""
                },
                {  
                   "product_id":"",
+				  "name":"",
+				  "price":,
+				  "description":"",
+				  "image":""
                   "quantity":""
-               }
+               },
             ],
             "price":"",
             "payed":""
