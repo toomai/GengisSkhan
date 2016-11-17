@@ -10,7 +10,8 @@ config.load(function(err){
     logger.info('Succes');
 
     server.start(function(err){
-        if(err){logger.info(err);}
+        if(err){logger.info(err);
+        }
     });
 
 });
