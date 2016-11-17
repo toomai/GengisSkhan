@@ -8,7 +8,7 @@ var load = function(callback){
             err = new Error("Erreur lecture de fichier ./json/config.json");
             throw err;
         }else{
-            var config = data;
+            var config = JSON.parse(data.toString());
             for(var key in config)
                 exports[key] = config[key];
             logger.info('Config file is loading.',function(err){if(err){console.log(err);}});
