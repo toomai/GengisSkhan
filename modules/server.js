@@ -46,7 +46,7 @@ function _configureRoutes(app){
 
     app.post('/connect/mobile', function (req, res) {
         var login = req.body.login;
-        users.connexion(login,function(err,user){
+        users.get_user(login,function(err,user){
             if(err)
                 logger.info(err);
             if(user){
@@ -62,13 +62,21 @@ function _configureRoutes(app){
 
     app.get('/command/new/:login', function (req, res) {
         var login = req.body.login;
-        var user = users.get_user(login);
-        if(user){
-            var command = commands.new_command(user);
-            res.status(200).send(command);
-        }else{
-            res.status(404).send('Error happend');
-        }
+        users.get_user(login,function(err,user){
+            if(err)
+                logger.info(err);
+            if(user){
+                commands.new_command(user,function(err,command){
+                    if(err)
+                        logger.info(err);
+                    if(command)
+                     res.status(200).send(command);
+                });
+            }else{
+                res.status(404).send('Error happend');
+            }
+        });
+        
     });
 
     //USER WILL ADD A NEW PRODUCT
@@ -77,15 +85,35 @@ function _configureRoutes(app){
         var command_id = req.body.command;
         var product = req.body.product;
         var quantity = req.body.quantity;
-        var user = users.get_user(login);
-        product = products.find_product_code(product);
-        commands.add_line(user,command_id,product,quantity);
-        if(command){
-            var command = commands.get_command(user,command_id);
-            res.status(200).send(command);
-        }else{
-            res.status(404).send('Error happend');
-        }
+
+
+        users.get_user(login,function(err,user){
+            if(err)
+                logger.info(err);
+            if(user){
+                products.find_product_code(product,function(err,product){
+                  if(err)
+                    logger.info(err);
+                  if(product){
+                        commands.add_line(user,command_id,product,quantity,function(err,command){
+                            if(err)
+                                logger.info(err);
+                            if(command){
+                                commands.get_command(user,command_id,function(err,data){
+                                    if(err)
+                                        logger.info(err);
+                                    if(data){
+                                        res.status(200).send(command);
+                                    }else{
+                                        res.status(404).send('Error happend');
+                                    }
+                                });
+                            }
+                        });       
+                  }
+                });
+            }
+        });      
     });
 
 
@@ -94,13 +122,20 @@ function _configureRoutes(app){
     app.get('/command/pay/:login/:command', function (req, res) {
         var login = req.body.login;
         var command_id = req.body.command;
-        var user = users.get_user(login);
-        var command = commands.pay_command(user,command_id)
-        if(command){
-            res.status(200).send(command);
-        }else{
-            res.status(404).send('Error happend');
-        }
+
+        users.get_user(login,function(err,user){
+            if(err)
+                logger.info(err);
+            commands.pay_command(user,command_id,function(err,command){
+                if(err)
+                    logger.info(err);
+                if(command){
+                  res.status(200).send(command);
+                }else{
+                   res.status(404).send('Error happend');
+                }
+            })
+        });
     });
 
     //USER WILL END HIS COMMAND
@@ -108,13 +143,19 @@ function _configureRoutes(app){
     app.get('/command/end/:login/:command', function (req, res) {
         var login = req.body.login;
         var command_id = req.body.command;
-        var user = users.get_user(login);
-        var command = commands.end_command(user,command_id)
-        if(command){
-            res.status(200).send(command);
-        }else{
-            res.status(404).send('Error happend');
-        }
+        users.get_user(login,function(err,user){
+            if(err)
+                logger.info(err);
+            commands.end_command(user,command_id,function(err,command){
+                if(err)
+                    logger.info(err);
+                if(command){
+                  res.status(200).send(command);
+                }else{
+                   res.status(404).send('Error happend');
+                }
+            })
+        });
     });
 
     //NO ROUTE FOUND 
