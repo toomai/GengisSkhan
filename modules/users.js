@@ -1,5 +1,4 @@
 var userJson = require('../json/users.json');
-var connexion = function (login,callback){
 
 var connexion = function (login, callback){
     for(var key in userJson){
