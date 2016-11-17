@@ -1,23 +1,27 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-
 var logger = require("./logger.js");
 var config = require("./config.js");
-
-var users = require("./users.js");
 var commands = require("./command.js");
 var products = require("./product.js");
 
+var users = require("./users.js");
+var command = require("./command.js");
+var path = require('path');
+var port = process.env.PORT || 3000;
 
 var start = function(callback){
-    var app = express();
-    _configureServer(app);
-    _configureRoutes(app);
-    app.listen(3000,callback);
+  var app = express();
+  var server = require('http').Server(app);
+  var io = require('socket.io')(server);
+  _configureServer(app);
+  _configureRoutes(app, io);
+  server.listen(port,callback);
 }
 
+
 var stop = function(callback){
-    callback(null);
+  callback(null);
 }
 
 exports.start = start;
@@ -25,24 +29,58 @@ exports.stop = stop;
 
 function _configureServer(app){
 
-   app.use(bodyParser.json()); 
-   app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
 
-   app.use(function(req, res, next) {
-       logger.info('Request URL:'+ req.originalUrl);
-       next();
-    });
 
-   app.use(function (req, res, next) {
-        next();
-   });
+  app.use(function(req, res, next) {
+    logger.info('Request URL:'+ req.originalUrl);
+    next();
+  });
 
+  app.use(function (req, res, next) {
+    next();
+  });
+  app.use(function(req, res, next){
+  /*  var indexPath = path.join(__dirname, '/..', '/web/');
+    express.static(indexPath);*/
+    next();
+  });
 }
 
-function _configureRoutes(app){
+function _configureRoutes(app, io){
+  //var login global ?
+app.get('/:login', function (req, res) {
+  var login = req.params.login;
 
-    
-    //CONNEXION
+  var user = users.get_user(login, function(err, data){
+    if(err || (data === undefined)){
+      res.status(403);
+    }else{
+      res.status(200);
+      res.sendFile(path.join(__dirname, '/..', '/web','/index.html'));
+    }
+  });
+});
+
+io.on('connection',function(socket){
+  console.log("A user just connected");
+});
+//CONNEXION
+
+
+//***************SOCKETS**********************
+
+
+/*
+***************SOCKETS**********************
+*  app.post('/connect/web', function (req, res) {
+*       var login = req.body.login;
+*  }
+*);
+*/
+
+
 
     app.post('/connect/mobile', function (req, res) {
         var login = req.body.login;
@@ -55,7 +93,7 @@ function _configureRoutes(app){
                 res.status(404).send('Error happend');
             }
         });
-        
+
     });
 
     //USER WILL A NEW COMMAND
@@ -117,7 +155,8 @@ function _configureRoutes(app){
     });
 
 
-    //USER WILL PAY HIS COMMAND
+//USER WILL PAY HIS COMMAND
+
 
     app.get('/command/pay/:login/:command', function (req, res) {
         var login = req.body.login;
@@ -138,7 +177,8 @@ function _configureRoutes(app){
         });
     });
 
-    //USER WILL END HIS COMMAND
+//USER WILL END HIS COMMAND
+
 
     app.get('/command/end/:login/:command', function (req, res) {
         var login = req.body.login;
@@ -158,9 +198,9 @@ function _configureRoutes(app){
         });
     });
 
-    //NO ROUTE FOUND 
+//NO ROUTE FOUND
 
-    app.use('*', function (req, res, next) {
-        res.status(404).send('No route');
-    });
+app.use('*', function (req, res, next) {
+  res.status(404).send('No route');
+});
 }

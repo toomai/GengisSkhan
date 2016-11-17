@@ -4,6 +4,7 @@ $(function() {
     var socket = io();
     var userLists = {};
 
+    io.connect('http://localhost');
 
     $('#connect').click(function() {
         log();
@@ -25,7 +26,7 @@ $(function() {
             if(o.message != ""){
                 var element = '<div class="form-group"> '+
                 '<span class="label label-default">'+o.user+'</span> '+
-                '<li><div class="msg"><p class="ms">'+o.message+'</p></div></li></div>';    
+                '<li><div class="msg"><p class="ms">'+o.message+'</p></div></li></div>';
                 $('#messages').append(element);
             }
         }
@@ -66,7 +67,7 @@ $(function() {
         }else{
             afficherNotif('Please enter your Nickname !', 'error');
         }
-       
+
     }
 
     function timeoutFunction() {

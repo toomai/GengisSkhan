@@ -3,12 +3,12 @@
 		"user_id":"820151666262",
 		"name":"Pierric Soie",
 		"custommer": true,
-		"commands":[  
-         {  
+		"commands":[
+         {
             "command_id":"",
             "date":"",
-            "lines":[  
-               {  
+            "lines":[
+               {
                   "product_id":"",
 				  "name":"",
 				  "price":0,
@@ -16,7 +16,7 @@
 				  "image":"",
                   "quantity":""
                },
-               {  
+               {
                   "product_id":"",
 				  "name":"",
 				  "price":0,
@@ -38,19 +38,19 @@
 	},
 	"560964666262":{
 		"user_id":"560964666262",
-		"name":"Daron Hamza",	
+		"name":"Daron Hamza",
 		"custommer": true,
 		"commands":[ ]
 	},
 	"560964664567":{
 		"user_id":"560964664567",
-		"name":"Sliman Christian",		
+		"name":"Sliman Christian",
 		"custommer": false,
 		"commands":[ ]
 	},
 	"999999999942":{
 		"user_id":"999999999942",
-		"name":"Master Yi",		
+		"name":"Master Yi",
 		"custommer": false,
 		"commands":[ ]
 	}
