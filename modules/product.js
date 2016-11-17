@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-var find_product_code = function(id_product){
+var find_product_code = function(id_product,callback){
   fs.readFile('../json/products.json', 'utf8', function (err, data) {
       if (err) callback(new Error("erreur dans find product code "+ err.message));
       var allProducts = JSON.parse(data);
@@ -23,7 +23,7 @@ var find_product_name = function(name,callback){
 }
 
 
-var list_all_product=function(){
+var list_all_product=function(callback){
 
 fs.readFile('../json/products.json', 'utf8', function (err, data) {
   if (err) callback(new Error("erreur dans list all product"+ err.message));
