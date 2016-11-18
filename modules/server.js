@@ -114,7 +114,6 @@ function _configureRoutes(app, io) {
         var product = req.body.product;
         var quantity = req.body.quantity;
 
-
         users.get_user(login, function(err, user) {
             if (err)
                 logger.info(err);

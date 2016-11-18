@@ -1,8 +1,10 @@
 ﻿{
     "host":"localhost",
     "port":3000,
-    "db_url" : "",
-    "db_port":"",
-    "db_user":"",
-    "db_mdp":""
+    "db_url_serv" : "@ds157187.mlab.com",
+    "db_url":"mongodb://",
+    "db_port":57187,
+    "db_user":"Admin",
+    "db_mdp":"password",
+    "db_name":"/gengis"
 }

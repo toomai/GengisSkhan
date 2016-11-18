@@ -1,4 +1,3 @@
-var fs = require("fs");
 var logger = require("./logger.js");
 var config = require('../json/config.json');
 

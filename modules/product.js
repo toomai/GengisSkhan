@@ -1,5 +1,7 @@
 var fs = require('fs');
-
+var MongoClient = require('mongodb').MongoClient
+  , assert = require('assert');
+  
 var find_product_code = function(id_product,callback){
   fs.readFile('../json/products.json', 'utf8', function (err, data) {
       if (err) callback(new Error("erreur dans find product code "+ err.message));

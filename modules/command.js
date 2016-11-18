@@ -1,5 +1,7 @@
 var fs = require('fs');
-
+var MongoClient = require('mongodb').MongoClient
+  , assert = require('assert');
+  
 var new_command = function(user,callback){
     fs.readFile('../json/users.json', 'utf8', function (err, data) {
         if(err) callback(new Error("Error while creating new command "+err.message));
