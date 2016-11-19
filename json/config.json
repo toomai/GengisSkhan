@@ -2,7 +2,7 @@
     "host":"localhost",
     "port":3000,
     "db_url_serv" : "@ds157187.mlab.com",
-    "db_url":"mongodb://",
+    "db_url_start":"mongodb://",
     "db_port":57187,
     "db_user":"Admin",
     "db_mdp":"password",

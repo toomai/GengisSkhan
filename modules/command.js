@@ -1,12 +1,15 @@
-var fs = require('fs');
+
 var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
-  
+  var config = require("./config.js");
+  var url = config.url_db;
+
+
 var new_command = function(user,callback){
     fs.readFile('../json/users.json', 'utf8', function (err, data) {
         if(err) callback(new Error("Error while creating new command "+err.message));
         var users = JSON.parse(data);
-        
+
         for(var user in users){
           if(user === user.user_id){
             var id = user.commands.length;
@@ -22,7 +25,7 @@ var new_command = function(user,callback){
             user.commands[id] = commande;
             //Mettre à jour la DB
 
-            callback(null, user); // Send back user with new command          
+            callback(null, user); // Send back user with new command
           }
         }
     });
@@ -46,19 +49,19 @@ var get_command = function(user,id_command,callback){
 }
 
 var end_command = function(user,id_command,callback){
-    
+
 }
 
 var pay_command = function(user,id_command,callback){
-    
+
 }
 
 var cancel_command = function(user,id_command,callback){
-    
+
 }
 
 var print_command = function(user,id_command,callback){
-    
+
 }
 
 var add_line = function(user,id_command,product,quantity,callback){
@@ -80,7 +83,7 @@ var add_line = function(user,id_command,product,quantity,callback){
       command.lines[idLine] = ligne;
       //Met à jour le prix total de la commande
       command.price = command.price+ product.price*quantity;
-      
+
       //Mettre à jour la DB
 
 
@@ -88,15 +91,15 @@ var add_line = function(user,id_command,product,quantity,callback){
 }
 
 var remove_line = function(user,id_command,id_line,callback){
-    
+
 }
 
 var change_quantity = function(user,id_command,id_line,quantity,callback){
-    
+
 }
 
 var change_price = function(user,id_command,id_line,price,callback){
-    
+
 }
 
 
