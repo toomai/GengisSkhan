@@ -1,11 +1,9 @@
 var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
 var logger = require("./logger.js");
-var config = require("./config.js");
-var url = config.url_db;
 
-var get_user= function (login, callback){
 
+var get_user= function (url,login, callback){
   MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
     logger.info("Connected successfully to server");
@@ -14,11 +12,9 @@ var get_user= function (login, callback){
       closeDb(db);
     })
   });
-
 }
 
-var get_users= function (callback){
-
+var get_users= function (url,callback){
   MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
     logger.info("Connected successfully to server");
@@ -26,7 +22,8 @@ var get_users= function (callback){
       callback(docs);
       closeDb(db);
     })
-  });
+});
+
 
 }
 

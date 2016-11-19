@@ -1,11 +1,9 @@
 
 var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
-  var config = require("./config.js");
-  var url = config.url_db;
 
 
-var new_command = function(user,callback){
+var new_command = function(url,user,callback){
     fs.readFile('../json/users.json', 'utf8', function (err, data) {
         if(err) callback(new Error("Error while creating new command "+err.message));
         var users = JSON.parse(data);
@@ -31,7 +29,7 @@ var new_command = function(user,callback){
     });
 }
 
-var get_command = function(user,id_command,callback){
+var get_command = function(url,user,id_command,callback){
     fs.readFile('../json/users.json', 'utf8', function (err, data) {
         if(err) callback(new Error("Error while getting command "+err.message));
         var users = JSON.parse(data);
@@ -48,23 +46,23 @@ var get_command = function(user,id_command,callback){
     });
 }
 
-var end_command = function(user,id_command,callback){
+var end_command = function(url,user,id_command,callback){
 
 }
 
-var pay_command = function(user,id_command,callback){
+var pay_command = function(url,user,id_command,callback){
 
 }
 
-var cancel_command = function(user,id_command,callback){
+var cancel_command = function(url,user,id_command,callback){
 
 }
 
-var print_command = function(user,id_command,callback){
+var print_command = function(url,user,id_command,callback){
 
 }
 
-var add_line = function(user,id_command,product,quantity,callback){
+var add_line = function(url,user,id_command,product,quantity,callback){
     var command;
     get_command(user, id_command, function(err, commande){
         if(err) callback(new Error("Commant not found "+err.message))
@@ -90,15 +88,15 @@ var add_line = function(user,id_command,product,quantity,callback){
       callback(null,command);
 }
 
-var remove_line = function(user,id_command,id_line,callback){
+var remove_line = function(url,user,id_command,id_line,callback){
 
 }
 
-var change_quantity = function(user,id_command,id_line,quantity,callback){
+var change_quantity = function(url,user,id_command,id_line,quantity,callback){
 
 }
 
-var change_price = function(user,id_command,id_line,price,callback){
+var change_price = function(url,user,id_command,id_line,price,callback){
 
 }
 
