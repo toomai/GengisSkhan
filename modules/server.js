@@ -48,14 +48,14 @@ function _configureServer(app) {
 
 function _configureRoutes(app, io) {
 
-    app.get('/:login', function(req, res) {
+    app.get('/login/:login', function(req, res) {
         var login = req.params.login;
-        var user = users.get_user(login, function(err, data) {
-            if (err)
-                logger.info(err);
+        logger.info('login : '+login);
+        var user = users.get_user(config.url_db,login, function(data) {
             if (data) {
+                res.status(200).send(data);
                 //res.sendFile('/index.html');
-                res.status(200).sendFile(path.join(__dirname, '/..', '/web', '/index.html'));
+                //res.status(200).sendFile(path.join(__dirname, '/..', '/web', '/index.html'));
             } else {
                 res.status(404).send('Error happend');
             }
@@ -71,16 +71,15 @@ function _configureRoutes(app, io) {
 
     app.post('/connect/mobile', function(req, res) {
         var login = req.body.login;
-        users.get_user(login, function(err, user) {
-            if (err)
-                logger.info(err);
+        logger.info(login);
+        users.get_user(config.url_db,login, function(user) {
             if (user) {
+                logger.info(user);
                 res.status(200).send(user);
             } else {
                 res.status(404).send('Error happend');
             }
         });
-
     });
 
     //USER WILL A NEW COMMAND
@@ -88,18 +87,15 @@ function _configureRoutes(app, io) {
 
     app.get('/command/new/:login', function(req, res) {
         var login = req.body.login;
-        users.get_user(login, function(err, user) {
-            if (err)
-                logger.info(err);
+        users.get_user(config.url_db,login, function(user) {
             if (user) {
-                commands.new_command(user, function(err, command) {
-                    if (err)
-                        logger.info(err);
-                    if (command)
+                commands.new_command(user, function(command) {
+                    if (command){
                         res.status(200).send(command);
+                    } else {
+                        res.status(404).send('Error happend');
+                    }
                 });
-            } else {
-                res.status(404).send('Error happend');
             }
         });
 
@@ -114,21 +110,13 @@ function _configureRoutes(app, io) {
         var product = req.body.product;
         var quantity = req.body.quantity;
 
-        users.get_user(login, function(err, user) {
-            if (err)
-                logger.info(err);
+        users.get_user(config.url_db,login, function(err, user) {
             if (user) {
-                products.find_product_code(product, function(err, product) {
-                    if (err)
-                        logger.info(err);
+                products.find_product_code(config.url_db,product, function(product) {
                     if (product) {
-                        commands.add_line(user, command_id, product, quantity, function(err, command) {
-                            if (err)
-                                logger.info(err);
+                        commands.add_line(config.url_db,user, command_id, product, quantity, function(command) {
                             if (command) {
-                                commands.get_command(user, command_id, function(err, data) {
-                                    if (err)
-                                        logger.info(err);
+                                commands.get_command(config.url_db,user, command_id, function(data) {
                                     if (data) {
                                         res.status(200).send(command);
                                     } else {
@@ -151,12 +139,8 @@ function _configureRoutes(app, io) {
         var login = req.body.login;
         var command_id = req.body.command;
 
-        users.get_user(login, function(err, user) {
-            if (err)
-                logger.info(err);
-            commands.pay_command(user, command_id, function(err, command) {
-                if (err)
-                    logger.info(err);
+        users.get_user(config.url_db,login, function(user) {
+            commands.pay_command(config.url_db,user, command_id, function(command) {
                 if (command) {
                     res.status(200).send(command);
                 } else {
@@ -172,13 +156,9 @@ function _configureRoutes(app, io) {
     app.get('/command/end/:login/:command', function(req, res) {
         var login = req.body.login;
         var command_id = req.body.command;
-        users.get_user(login, function(err, user) {
-            if (err)
-                logger.info(err);
-            commands.end_command(user, command_id, function(err, command) {
-                if (err)
-                    logger.info(err);
-                if (command) {
+        users.get_user(config.url_db,login, function(user) {
+            commands.end_command(config.url_db,user, command_id, function(command) {
+                 if (command) {
                     res.status(200).send(command);
                 } else {
                     res.status(404).send('Error happend');
