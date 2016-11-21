@@ -92,8 +92,18 @@ var change_quantity = function(url,user,id_command,id_line,quantity,callback){
   });
 }
 
+//changer prix de la ligne + ajuster prix
 var change_price = function(url,user,id_command,id_line,price,callback){
-  //changer prix de la ligne + ajuster prix
+  get_command(url,user.user_id,id_command,function(command){
+    var prix = command.price;
+    prix -= command.lines[id_line].price * command.lines[id_line].quantity;
+    prix += price * command.lines[id_line].quantity;
+    command.price = prix;
+    command.lines[id_line].price = price;
+    users.update_user_command(url, user, function(com){//TO CHECK
+      callback(com);
+    });
+  });
 }
 
 
