@@ -1,69 +1,69 @@
 {
-	"978020137962":{
-		"product_id":"978020137962",
+	"9780201379624":{
+		"product_id":"9780201379624",
 		"name":"pomme",
 		"price":1.20,
 		"description":"Fruit succulent produit au fin fond des collines du Bangladesh",
 		"image":"../image/pomme.jpg"
 	},
-"925020137962":	{
-		"product_id":"925020137962",
+"9250201379622":	{
+		"product_id":"9250201379622",
 		"name":"Jus d'orange",
 		"price":2.50,
 		"description":"Jus d'orange bio avec 2% de vrais oranges",
 		"image":"../image/jusorange.jpg"
 	},
-	"725620137564":{
-		"product_id":"725620137564",
+	"7256201375642":{
+		"product_id":"7256201375642",
 		"name":"Spaghetti",
 		"price":4.20,
 		"description":"Pasta de la Mama!",
 		"image":"../image/spaghetti.jpg"
 	},
-"925020137564":	{
-		"product_id":"925020137564",
+"9250201375648":	{
+		"product_id":"9250201375648",
 		"name":"Sac poubelle ",
 		"price":5.20,
 		"description":"Rouleau de 10 sacs poubelles 80L",
 		"image":"../image/sacpoubelle.jpg"
 	},
-"855630137564":	{
-		"product_id":"855630137564",
+"8556301375641":	{
+		"product_id":"8556301375641",
 		"name":"Papier toilette",
 		"price":10.10,
 		"description":"20 rouleaux de pq doux et soyeux pour postérieur en manque d'afféction",
 		"image":"../image/pq.jpg"
 	},
-	"855630597564":{
-		"product_id":"855630597564",
+	"8556305975649":{
+		"product_id":"8556305975649",
 		"name":"Essui",
 		"price":15.20,
 		"description":"Essui en cotton synthétique fabriqué à partir de cheveux de vieux",
 		"image":"../image/essui.jpg"
 	},
-	"965630597564":{
-		"product_id":"965630597564",
+	"9656305975645":{
+		"product_id":"9656305975645",
 		"name":"Shampoing",
 		"price":5.80,
 		"description":"Shampoing à base d'huile de brebis rendant la vitalité à vos cheveux",
 		"image":"../image/shampoing.jpg"
 	},
-"965965597564":	{
-		"product_id":"965965597564",
+"9659655975648":	{
+		"product_id":"9659655975648",
 		"name":"Casserole",
 		"price":20.50,
 		"description":"Une bonne grosse marmitte pour vos repas",
 		"image":"../image/casserole.jpg"
 	},
-"965965154564":	{
-		"product_id":"965965154564",
+"9659651545647":	{
+		"product_id":"9659651545647",
 		"name":"Essui-tout",
 		"price":10.25,
 		"description":"10 rouleaux d'essui-tout super étanche",
 		"image":"../image/essuitout.jpg"
 	},
-"123465896464":	{
-		"product_id":"123465896464",
+"1234658964646":	{
+		"product_id":"1234658964646",
 		"name":"Savon",
 		"price":3.25,
 		"description":"Bon savon pour sentir bon. Attention de ne pas le laisser glisser",

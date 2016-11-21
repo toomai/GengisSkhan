@@ -1,6 +1,6 @@
 {
-	"820151666262":{
-		"user_id":"820151666262",
+	"8201516662627":{
+		"user_id":"8201516662627",
 		"name":"Pierric Soie",
 		"custommer": true,
 		"commands":[
@@ -32,26 +32,26 @@
          }
       ]
 	},
-	"560151666262":{
-		"user_id":"560151666262",
+	"5601516662628":{
+		"user_id":"5601516662628",
 		"name":"Carlos Stevens",
 		"custommer": true,
 		"commands":[ ]
 	},
-	"560964666262":{
-		"user_id":"560964666262",
+	"5609646662624":{
+		"user_id":"5609646662624",
 		"name":"Daron Hamza",
 		"custommer": true,
 		"commands":[ ]
 	},
-	"560964664567":{
-		"user_id":"560964664567",
+	"5609646645672":{
+		"user_id":"5609646645672",
 		"name":"Sliman Christian",
 		"custommer": false,
 		"commands":[ ]
 	},
-	"999999999942":{
-		"user_id":"999999999942",
+	"9999999999420":{
+		"user_id":"9999999999420",
 		"name":"Master Yi",
 		"custommer": false,
 		"commands":[ ]
