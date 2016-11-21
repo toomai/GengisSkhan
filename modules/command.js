@@ -54,8 +54,14 @@ var end_command = function(url,user,id_command,callback){
   //recuperer la commande et solder le prix
 }
 
+//recuperer la commande et mettre true a payed
 var pay_command = function(url,user,id_command,callback){
-  //recuperer la commande et mettre true a payed
+  get_command(url,user.user_id,id_command,function(command){
+    command.payed = true;
+    users.update_user_command(url, user, function(com){//TO CHECK
+      callback(com);
+    });
+  });
 }
 
 var cancel_command = function(url,user,id_command,callback){
@@ -72,8 +78,18 @@ var remove_line = function(url,user,id_command,id_line,callback){
   //enlever la ligne et retirer le prix du solde
 }
 
+//changer qty d'une ligne + ajuster solde
 var change_quantity = function(url,user,id_command,id_line,quantity,callback){
-  //changer qty d'une ligne + ajuster solde
+  get_command(url,user.user_id,id_command,function(command){
+    var prix = command.price;
+    prix -= command.lines[id_line].price * command.lines[id_line].quantity;
+    prix += command.lines[id_line].price * quantity;
+    command.price = prix;
+    command.lines[id_line].quantity = quantity;
+    users.update_user_command(url, user, function(com){//TO CHECK
+      callback(com);
+    });
+  });
 }
 
 var change_price = function(url,user,id_command,id_line,price,callback){
