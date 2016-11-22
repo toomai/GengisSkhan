@@ -2,6 +2,7 @@ var logger = require("./logger.js");
 var config = require('../json/config.json');
 
 var load = function(callback){
+  var exports = module.exports;
     logger.info('Start loading config file ...');
     for(var key in config){
       exports[key] = config[key];

@@ -1,14 +1,15 @@
 var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
 var logger = require("./logger.js");
-
+/*Ne serait-ce pas mieux d'isoler la connection dans une seule méthode
+ => Réplication du code + Multiplication des connexions à la db*/
 
 var get_user= function (url,login, callback){
   MongoClient.connect(url, function(err, db) {
     assert.equal(null, err);
     logger.info("Connected successfully to server");
     findUser(db,login,function(docs){
-      callback(docs[0]);
+      callback(null,docs[0]);
       closeDb(db);
     });
   });

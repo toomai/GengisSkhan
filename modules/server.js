@@ -31,7 +31,7 @@ exports.stop = stop;
 
 function _configureServer(app) {
 
-    app.use(express.static(path.join(__dirname, 'web')));
+    app.use(express.static(path.join(__dirname, 'webContent')));
 
     app.use(bodyParser.json());
 
@@ -43,19 +43,20 @@ function _configureServer(app) {
         logger.info('Request URL:' + req.originalUrl);
         next();
     });
-
 }
 
 function _configureRoutes(app, io) {
-
-    app.get('/:login', function(req, res) {
+    app.get('/js/:file', function(req, res){
+      var fileReq = req.params.file;
+      res.status(200).sendFile(path.join(__dirname, '/..', 'webContent','js', fileReq));
+    });
+    app.get('/web/:login', function(req, res) {
         var login = req.params.login;
-        var user = users.get_user(login, function(err, data) {
+        var user = users.get_user(config.url_db,login, function(err, data) {
             if (err)
                 logger.info(err);
             if (data) {
-                //res.sendFile('/index.html');
-                res.status(200).sendFile(path.join(__dirname, '/..', '/web', '/index.html'));
+                res.status(200).sendFile(path.join(__dirname, '/..', '/webContent', '/index.html'));
             } else {
                 res.status(404).send('Error happend');
             }
@@ -190,6 +191,6 @@ function _configureRoutes(app, io) {
     //NO ROUTE FOUND
 
     app.use('*', function(req, res, next) {
-        res.status(404).send('No route');
+        //res.status(404).send('No route');
     });
 }
