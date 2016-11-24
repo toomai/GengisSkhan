@@ -114,9 +114,9 @@ function _configureRoutes(app, io) {
             if (user) {
                 products.find_product_code(config.url_db,product, function(product) {
                     if (product) {
-                        commands.add_line(config.url_db,user, command_id, product, quantity, function(command) {
+                        commands.add_line(config.url_db,user.user_id, command_id, product.product_id, quantity, function(command) {
                             if (command) {
-                                commands.get_command(config.url_db,user, command_id, function(data) {
+                                commands.get_command(config.url_db,user.user_id, command_id, function(data) {
                                     if (data) {
                                         res.status(200).send(command);
                                     } else {
