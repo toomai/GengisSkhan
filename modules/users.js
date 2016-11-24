@@ -60,8 +60,10 @@ var findUsers = function(db, callback) {
   });
 }
 
+//Attentiion modifier guillement
 var findUser = function(db,user,callback){
   var collection = db.collection('users');
+  console.log(user);
   collection.find({'user_id':user}).toArray(function(err,docs){
     callback(docs);
   });
