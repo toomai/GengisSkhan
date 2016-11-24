@@ -6,6 +6,7 @@ var pro = require('./product.js');
 
 var new_command = function(url,login,callback){
   users.get_user(url,login,function(data){
+    console.log(data)
     var commande =  {
         "command_id":data.commands.length,
         "date":new Date(),
@@ -28,6 +29,7 @@ var get_command = function(url,login,id_command,callback){
 
 var add_line = function(url,login,id_command,product_id,quantity,callback){
   users.get_user(url,login,function(user){
+    console.log(user)
     get_command(url,user.user_id,id_command,function(command){
       pro.find_product_code(url,product_id,function(product){
         var ligne = {
@@ -43,7 +45,7 @@ var add_line = function(url,login,id_command,product_id,quantity,callback){
          command.price = command.price + product.price*quantity;
          user.commands[id_command] = command;
          users.update_user_command(url,user,function(com){
-               callback(com);
+               callback(user.commands[id_command]);
          });
        });
     });
@@ -57,15 +59,23 @@ var end_command = function(url,user,id_command,callback){
 //recuperer la commande et mettre true a payed
 var pay_command = function(url,user,id_command,callback){
   get_command(url,user.user_id,id_command,function(command){
-    command.payed = true;
+    user.commands[id_command] = command;
+    user.commands.payed = true;
     users.update_user_command(url, user, function(com){//TO CHECK
-      callback(com);
+      callback(command);
     });
   });
 }
 
+//ajouter un flag annuler a true sur la commande
 var cancel_command = function(url,user,id_command,callback){
-  //ajouter un flag annuler a true sur la commande
+  get_command(url,user.user_id,id_command,function(command){
+    user.commands[id_command] = command;
+    user.command.canceled = true;
+    users.update_user_command(url, user, function(com){//TO CHECK
+      callback(com);
+    });
+  });
 }
 
 var print_command = function(url,user,id_command,callback){
