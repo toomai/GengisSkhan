@@ -12,6 +12,7 @@ var command = require("./command.js");
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var tableConnexions={};
 
 var start = function(callback) {
 
@@ -47,10 +48,17 @@ function _configureServer(app) {
 }
 
 function _configureRoutes(app, io) {
+  /*
+  * Serve static JS files
+  */
     app.get('/js/:file', function(req, res){
       var fileReq = req.params.file;
       res.status(200).sendFile(path.join(__dirname,'/..','/web', '/js/','myScript.js'));
     });
+
+    /*
+    Web login send index.html
+    */
     app.get('/login/:login', function(req, res) {
         var login = req.params.login;
         var user = users.get_user(config.url_db,login, function(data) {
@@ -58,14 +66,11 @@ function _configureRoutes(app, io) {
             if (data) {
                 //res.sendFile('/index.html');
                 res.status(200).sendFile(path.join(__dirname, '/..', '/web', '/index.html'));
+                _socketConnection(io, data);
             } else {
                 res.status(404).send('Error happend');
             }
         });
-    });
-
-    io.on('connection', function(socket) {
-        logger.info("A user just connected");
     });
 
     //CONNEXION
@@ -121,6 +126,7 @@ function _configureRoutes(app, io) {
                                 commands.get_command(config.url_db,user, command_id, function(data) {
                                     if (data) {
                                         res.status(200).send(command);
+                                        tableConnexions[user.user_id].emit(command);
                                     } else {
                                         res.status(404).send('Error happend');
                                     }
@@ -174,4 +180,12 @@ function _configureRoutes(app, io) {
     app.use('*', function(req, res, next) {
         res.status(404).send('No route');
     });
+}
+
+function _socketConnection(io, usr){
+  io.on('connection', function(socket) {
+      logger.info("A user just connected");
+
+      tableConnexions[usr.user_id] = socket;
+  });
 }

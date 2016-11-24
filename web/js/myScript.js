@@ -4,8 +4,12 @@ $(document).ready(function() {
     var socket = io();
     var userLists = {};
 
-    //io.connect('http://localhost:3000');
-    io.connect('https://gengisskhan.herokuapp.com/');
-    $("#tableCourses").DataTable();
+    io.connect('http://localhost:3000');
+    /*
+    * Affichage initial commande  
+    */
+    //io.connect('https://gengisskhan.herokuapp.com/');
+    $("#tableCourses").DataTable({
+    });
     return;
 });
