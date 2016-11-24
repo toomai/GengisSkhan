@@ -96,7 +96,7 @@ function _configureRoutes(app, io) {
         var login = req.body.login;
         users.get_user(config.url_db,login, function(user) {
             if (user) {
-                commands.new_command(user, function(command) {
+                commands.new_command(user.user_id, function(command) {
                     if (command){
                         res.status(200).send(command);
                     } else {
