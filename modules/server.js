@@ -54,7 +54,7 @@ function _configureRoutes(app, io) {
     app.get('/login/:login', function(req, res) {
         var login = req.params.login;
         var user = users.get_user(config.url_db,login, function(data) {
-          data = 1;
+          //data = 1;
             if (data) {
                 //res.sendFile('/index.html');
                 res.status(200).sendFile(path.join(__dirname, '/..', '/web', '/index.html'));
