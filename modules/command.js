@@ -1,4 +1,3 @@
-
 var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
 var users = require('./users.js');
@@ -28,9 +27,9 @@ var get_command = function(url,login,id_command,callback){
 }
 
 var add_line = function(url,login,id_command,product_id,quantity,callback){
+  console.log(id_command)
   users.get_user(url,login,function(user){
-    console.log(user)
-    get_command(url,user.user_id,id_command,function(command){
+    get_command(url,login,id_command,function(command){
       pro.find_product_code(url,product_id,function(product){
         var ligne = {
            "line_id": command.lines.length,
@@ -54,6 +53,7 @@ var add_line = function(url,login,id_command,product_id,quantity,callback){
 
 var end_command = function(url,user,id_command,callback){
   //recuperer la commande et solder le prix
+  //renvoyer commande
 }
 
 //recuperer la commande et mettre true a payed

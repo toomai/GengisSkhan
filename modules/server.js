@@ -93,10 +93,10 @@ function _configureRoutes(app, io) {
 
 
     app.get('/command/new/:login', function(req, res) {
-        var login = req.body.login;
+        var login = req.params.login;
         users.get_user(config.url_db,login, function(user) {
             if (user) {
-                commands.new_command(user.user_id, function(command) {
+                commands.new_command(config.url_db,user.user_id, function(command) {
                     if (command){
                         res.status(200).send(command);
                     } else {
@@ -126,7 +126,7 @@ function _configureRoutes(app, io) {
                                 commands.get_command(config.url_db,user.user_id, command_id, function(data) {
                                     if (data) {
                                         res.status(200).send(command);
-                                        tableConnexions[user.user_id].emit(command);
+                                     //   tableConnexions[user.user_id].emit(command);
                                     } else {
                                         res.status(404).send('Error happend');
                                     }
@@ -144,8 +144,8 @@ function _configureRoutes(app, io) {
 
 
     app.get('/command/pay/:login/:command', function(req, res) {
-        var login = req.body.login;
-        var command_id = req.body.command;
+        var login = req.params.login;
+        var command_id = req.params.command;
 
         users.get_user(config.url_db,login, function(user) {
             commands.pay_command(config.url_db,user, command_id, function(command) {
@@ -162,8 +162,8 @@ function _configureRoutes(app, io) {
 
 
     app.get('/command/end/:login/:command', function(req, res) {
-        var login = req.body.login;
-        var command_id = req.body.command;
+        var login = req.params.login;
+        var command_id = req.params.command;
         users.get_user(config.url_db,login, function(user) {
             commands.end_command(config.url_db,user, command_id, function(command) {
                  if (command) {
