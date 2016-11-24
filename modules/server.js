@@ -110,7 +110,7 @@ function _configureRoutes(app, io) {
         var product = req.body.product;
         var quantity = req.body.quantity;
 
-        users.get_user(config.url_db,login, function(err, user) {
+        users.get_user(config.url_db,login, function(user) {
             if (user) {
                 products.find_product_code(config.url_db,product, function(product) {
                     if (product) {
