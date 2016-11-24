@@ -3,13 +3,53 @@
 
 <head>
     <meta charset="UTF-8">
-    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="http://localhost:3000/js/jquery.js"></script>
-    <script type="text/javascript" src="http://localhost:3000/js/myScript.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--Jquery UI css-->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <!-- DataTables css-->
+    <link rel="stylesheet"
+    	href="https://cdn.datatables.net/1.10.11/css/jquery.dataTables.min.css"
+    	type="text/css" media="all" />
+    <!-- Bootstrap css-->
+    <link rel="stylesheet" type="text/css" media="all"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"/>
+
+    <!-- Jquery js-->
+    <script type="text/javascript"
+        src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <!-- JQuery UI js-->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <!--JQuery UI js-->>
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+    <!-- DataTables js-->
+    <link rel="stylesheet"  media="all"
+    	href="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"/>
+    <!-- Bootstrap js-->
+    <link rel="stylesheet" type="text/javascript" media="all"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"/>
+    <!-- Socket js-->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- Script de derrière les fagots-->
+    <script type="text/javascript"
+        src="http://localhost:3000/js/myScript.js"></script>
+
 </head>
 
 <body>
-  <h1> Bienvenue sur la plus belle app du monde </h2>
+  <title>GenghisSkhan</title>
+  <div class="container">
+    <div class="starter-template">
+      <h1>Commande du </h1>
+      <table id="tableCourses" class="display table table-striped table-bordered" width="100%" cellspacing="0">
+      </table>
+      <div><p>Total:</p></div>
+  </div>
+</div>
 </body>
 
 </html>

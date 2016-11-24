@@ -1,4 +1,4 @@
-$(function() {
+$(document).ready(function() {
 
     var socket = io();
 
@@ -7,6 +7,23 @@ $(function() {
     /*String.prototype.capitalize = function() {
         return this.charAt(0).toUpperCase() + this.slice(1);
     }*/
+var dataTest= [
+  ['1', "Courgette", "123456","1000", "1000.5", "Fruit de forme allongée", "Coucou", "1000005" ],
+  ['2', "Carotte", "7891011","10560", "1646500.5", "Fruit de forme allongée", "Coucou", "106400005" ]
+];
+    $('#tableCourses').DataTable({
+      data:dataTest,
+      columns: [
+            { title: "Numéro" },
+            { title: "Produit" },
+            { title: "Id" },
+            {title:"Quantité"},
+            { title: "Prix unitaire" },
+            { title: "Description" },
+            { title: "Image" },
+            { title: "Total ligne" }
+        ]
+    });
 
     function afficherNotif(message, code) {
         toastr.options = {
