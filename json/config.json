@@ -1,6 +1,6 @@
 ﻿{
     "host":"localhost",
-    "port":3978,
+    "port":8080,
     "db_url_serv" : "@ds157187.mlab.com",
     "db_url_start":"mongodb://",
     "db_port":57187,
