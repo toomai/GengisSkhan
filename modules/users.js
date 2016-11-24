@@ -60,7 +60,7 @@ var findUsers = function(db, callback) {
 }
 
 var findUser = function(db,user,callback){
-  var collection = db.collection('users');
+  var collection = db.collection("users");
   collection.find({'user_id':user}).toArray(function(err,docs){
     callback(docs);
   });
