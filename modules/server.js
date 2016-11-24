@@ -18,7 +18,7 @@ var start = function(callback) {
     _configureServer(app);
     _configureRoutes(app, io);
 
-    server.listen(config.port, callback);
+    server.listen(process.env.PORT || config.port, callback);
 }
 
 
@@ -47,15 +47,17 @@ function _configureServer(app) {
 }
 
 function _configureRoutes(app, io) {
-
+    app.get('/js/:file', function(req, res){
+      var fileReq = req.params.file;
+      res.status(200).sendFile(path.join(__dirname,'/..','/web', '/js/','myScript.js'));
+    });
     app.get('/login/:login', function(req, res) {
         var login = req.params.login;
-        logger.info('login : '+login);
         var user = users.get_user(config.url_db,login, function(data) {
+          //data = 1;
             if (data) {
-                res.status(200).send(data);
                 //res.sendFile('/index.html');
-                //res.status(200).sendFile(path.join(__dirname, '/..', '/web', '/index.html'));
+                res.status(200).sendFile(path.join(__dirname, '/..', '/web', '/index.html'));
             } else {
                 res.status(404).send('Error happend');
             }

@@ -3,15 +3,61 @@
 
 <head>
     <meta charset="UTF-8">
-    <script src="/socket.io/socket.io.js"></script>
-<script>
-  var socket = io.connect('http://localhost:3000');
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-</script>
+    <!--Bootstrap CSS-->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!--DataTables CSS-->
+    <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet">
+    <!--JQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+    <!--Bootstrap JS-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!--DataTables JS-->
+    <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
+    <!-- Socket js-->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- Script de derrière les fagots-->
+    <!--  <script type="text/javascript"
+        src="http://localhost:3000/js/myScript.js"></script>-->
+     <script type="text/javascript"
+              src="https://gengiskhan.herokuapp.com/js/myScript.js"></script>
+
 </head>
 
 <body>
-  <h1> Bienvenue sur la plus belle app du monde </h2>
+  <title>GenghisSkhan</title>
+  <div class="container">
+    <div class="starter-template">
+      <h1>Commande du </h1>
+      <table id="tableCourses" class="display table table-striped table-bordered" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th>Numéro</th>
+            <th>Produit</th>
+            <th>Image</th>
+            <th>code</th>
+            <th>description</th>
+            <th>Prix unitaire</th>
+            <th>Quantité</th>
+            <th>Total ligne</th>
+            <th>Suppression</th>
+          </tr>
+        </thead>
+      </table>
+      <div><h3>Total:</h3></div>
+      <button type="button" id="payement">Payer</button>
+
+  </div>
+</div>
 </body>
 
 </html>
