@@ -18,7 +18,7 @@ var start = function(callback) {
     _configureServer(app);
     _configureRoutes(app, io);
 
-    server.listen(config.port, callback);
+    server.listen(process.env.PORT || config.port, callback);
 }
 
 
