@@ -47,7 +47,10 @@ function _configureServer(app) {
 }
 
 function _configureRoutes(app, io) {
-
+      app.get('/js/:file', function(req, res){
+      var fileReq = req.params.file;
+      res.status(200).sendFile(path.join(__dirname, '/..', 'web','js', fileReq));
+    });
     app.get('/login/:login', function(req, res) {
         var login = req.params.login;
         logger.info('login : '+login);
