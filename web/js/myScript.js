@@ -6,9 +6,9 @@ $(document).ready(function() {
 
     //io.connect('http://localhost:3000');
     io.connect('https://gengisskhan.herokuapp.com/');
-    $("#tableCourses").DataTable({
-    
-      "aoColumns": [
+    $("#tableCourses").dataTable({
+
+      "columns": [
               null,
               null,
               {"bSortable": false},
@@ -17,7 +17,7 @@ $(document).ready(function() {
               null,
               null,
               null,
-              {"bSortable": false}
+              {"className": "dt-center","bSortable": false, "data": null,"defaultContent":"<img src=\"http://www.fancyicons.com/free-icons/103/office/png/256/delete_256.png\"height=\"32\" width=\"32\">" }
           ]
     });
     return;
