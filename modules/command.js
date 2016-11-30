@@ -51,10 +51,12 @@ var add_line = function(url,login,id_command,product_id,quantity,callback){
   });
 }
 
+/************* NO NEED A PRIORI ***********************
 var end_command = function(url,user,id_command,callback){
   //recuperer la commande et solder le prix
   //renvoyer commande
 }
+*******************************************************/
 
 //recuperer la commande et mettre true a payed
 var pay_command = function(url,user,id_command,callback){
@@ -67,6 +69,7 @@ var pay_command = function(url,user,id_command,callback){
   });
 }
 
+/************* NO NEED A PRIORI ***********************
 //ajouter un flag annuler a true sur la commande
 var cancel_command = function(url,user,id_command,callback){
   get_command(url,user.user_id,id_command,function(command){
@@ -77,11 +80,13 @@ var cancel_command = function(url,user,id_command,callback){
     });
   });
 }
+******************************************************/
 
+/************* NO NEED A PRIORI ***********************
 var print_command = function(url,user,id_command,callback){
   //normalement a supprimer mcar pareil que get_commmand
 }
-
+******************************************************/
 
 
 var remove_line = function(url,user,id_command,id_line,callback){
