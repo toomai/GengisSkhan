@@ -78,10 +78,8 @@ function _configureRoutes(app, io) {
 
     app.post('/connect/mobile', function(req, res) {
         var login = req.body.login;
-        logger.info(login);
         users.get_user(config.url_db,login, function(user) {
             if (user) {
-                logger.info(user);
                 res.status(200).send(user);
             } else {
                 res.status(404).send('Error happend');

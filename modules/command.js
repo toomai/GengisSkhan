@@ -122,10 +122,7 @@ var change_price = function(url,user,id_command,id_line,price,callback){
 
 exports.new_command = new_command;
 exports.get_command = get_command;
-exports.end_command = end_command;
 exports.pay_command = pay_command;
-exports.cancel_command = cancel_command;
-exports.print_command = print_command;
 exports.add_line = add_line;
 exports.remove_line = remove_line;
 exports.change_quantity = change_quantity;
