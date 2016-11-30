@@ -5,7 +5,6 @@ var pro = require('./product.js');
 
 var new_command = function(url,login,callback){
   users.get_user(url,login,function(data){
-    console.log(data)
     var commande =  {
         "command_id":data.commands.length,
         "date":new Date(),
@@ -27,8 +26,7 @@ var get_command = function(url,login,id_command,callback){
 }
 
 var add_line = function(url,login,id_command,product_id,quantity,callback){
-  console.log(id_command)
-  users.get_user(url,login,function(user){
+ users.get_user(url,login,function(user){
     get_command(url,login,id_command,function(command){
       pro.find_product_code(url,product_id,function(product){
         var ligne = {
