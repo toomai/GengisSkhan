@@ -68,17 +68,6 @@ function _configureRoutes(app, io) {
 
     _connect(config.url_db, function(db) {
 
-        app.get('/login/:login', function(req, res) {
-            var login = req.params.login;
-            var user = users.get_user(db, login, function(data) {
-                if (data) {
-                    _socketConnection(io, data);
-                } else {
-                    res.status(404).send('Error happend');
-                }
-            });
-        });
-
         //CONNEXION
 
 
@@ -121,7 +110,6 @@ function _configureRoutes(app, io) {
                     commands.get_command(db, login, command_id, function(data) {
                         if (data) {
                             res.status(200).send(command);
-                            //   tableConnexions[user.user_id].emit(command);
                         } else {
                             res.status(404).send('Error happend');
                         }
