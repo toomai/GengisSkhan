@@ -27,17 +27,22 @@
     <script src="/socket.io/socket.io.js"></script>
     <!-- Script de derrière les fagots-->
    <script type="text/javascript"
-        src="http://localhost:3000/js/myScript.js"></script>
+        src="http://localhost:3000/webapp/js/myScript.js"></script>
       <!--  <script type="text/javascript"
               src="https://gengiskhan.herokuapp.com/js/myScript.js"></script>-->
-
-
 </head>
 
 <body>
   <title>GenghisSkhan</title>
   <div class="container">
     <div class="starter-template">
+      <div name="connexion">
+        <h1>Choix</h1>
+        <select id="choice_user">
+          <p><input type="submit" id="confirmUser" value="Confirmer"/></p>
+        </select>
+      </div>
+      <div id="commande_user">
       <h1>Commande du </h1>
       <table id="tableCourses" class="display table table-striped table-bordered" width="100%" cellspacing="0">
         <thead>
@@ -69,8 +74,8 @@
       </table>
       <div><h3>Total:</h3></div>
       <button type="button" id="payement">Payer</button>
-
   </div>
+</div>
 </div>
 </body>
 

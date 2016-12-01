@@ -25,6 +25,13 @@ var get_command = function(url,login,id_command,callback){
   });
 }
 
+// Recupere la derniere commande de l'utilisateur'; verifie si la derniere commande est payee
+var get_last_command = function(url,login,callback){
+  users.get_user(url,login,function(data){
+     callback(data.commands[commands.length-1]);
+  });
+}
+
 var add_line = function(url,login,id_command,product_id,quantity,callback){
  users.get_user(url,login,function(user){
     get_command(url,login,id_command,function(command){
@@ -97,12 +104,17 @@ var remove_line = function(url,user,id_command,id_line,callback){
       var lines = [];
       user.commands[id_command].lines = lines;
     }else{
-      user.commands[id_command].lines[id_line] = command.lines[command.lines.length-1];
-      
+      command.lines[id_line] = command.lines[command.lines.length-1];
+      var indice, lines = [];
+      for(indice = 0; indice < command.lines.length-1; indice++){
+        lines[indice] = command.lines[indice];
+        console.log(lines[indice]);
+      }
+      user.commands[id_command].lines = lines;      
     }
     
     users.update_user_command(url, user, function(com){//TO CHECK
-      callback(command);
+      callback(user);
     });
   });
 }

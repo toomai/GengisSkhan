@@ -32,7 +32,7 @@ exports.stop = stop;
 
 function _configureServer(app) {
 
-    app.use(express.static(path.join(__dirname, 'web')));
+    app.use('/webapp',express.static(path.join(__dirname, '/..','/web')));
 
     app.use(bodyParser.json());
 
@@ -48,24 +48,14 @@ function _configureServer(app) {
 }
 
 function _configureRoutes(app, io) {
-  /*
-  * Serve static JS files
-  */
-    app.get('/js/:file', function(req, res){
-      var fileReq = req.params.file;
-      res.status(200).sendFile(path.join(__dirname,'/..','/web', '/js/','myScript.js'));
-    });
 
     /*
-    Web login send index.html
     */
     app.get('/login/:login', function(req, res) {
         var login = req.params.login;
         var user = users.get_user(config.url_db,login, function(data) {
           //data = 1;
             if (data) {
-                //res.sendFile('/index.html');
-                res.status(200).sendFile(path.join(__dirname, '/..', '/web', '/index.html'));
                 _socketConnection(io, data);
             } else {
                 res.status(404).send('Error happend');
@@ -97,6 +87,7 @@ function _configureRoutes(app, io) {
                 commands.new_command(config.url_db,user.user_id, function(command) {
                     if (command){
                         res.status(200).send(command);
+
                     } else {
                         res.status(404).send('Error happend');
                     }
@@ -228,10 +219,17 @@ app.post('/command/modify/price', function(req, res) {
     });
 }
 
-function _socketConnection(io, usr){
-  io.on('connection', function(socket) {
-      logger.info("A user just connected");
-
-      tableConnexions[usr.user_id] = socket;
+io.on('connection', function(socket){
+  socket.emit('connected');
+  logger.info("A user just connected");
+  var listUser = users.get_users(config.url_db,function(data){
+    if(data){
+      socket.emit('listeUser',data);
+    }else{
+      socket.emit('error', 'ZUT');
+    }
   });
-}
+  socket.on('userId', function(data){
+    tableConnexions[data] = socket;
+  });
+});

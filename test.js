@@ -30,9 +30,38 @@ config.load(function(err){
   com.get_command(config.url_db,'8201516662627',0,function(data){
     logger.info('command : '+JSON.stringify(data));
   });
-*/
-com.add_line(config.url_db,'8201516662627',0,'725620137564',2,function(data){
-  logger.info('command : '+JSON.stringify(data));
+
+
+com.new_command(config.url_db,'8201516662627',function(data){
+    logger.info('user : '+JSON.stringify(data));
+  });
+
+com.add_line(config.url_db,'8201516662627',0,'7256201375642',2,function(data){
+  logger.info('command1 : '+JSON.stringify(data));
+});
+
+users.get_user(config.url_db,'8201516662627', function(data){
+  com.pay_command(config.url_db,data,0,function(test){
+    logger.info('command2 : '+JSON.stringify(test));
+  });
+});
+
+users.get_user(config.url_db,'8201516662627', function(data){
+  com.change_quantity(config.url_db,data,0,0,10,function(test){
+    logger.info('command2 : '+JSON.stringify(test));
+  });
+});
+
+users.get_user(config.url_db,'8201516662627', function(data){
+  com.change_price(config.url_db,data,0,0,50.25,function(test){
+    logger.info('command2 : '+JSON.stringify(test));
+  });
+});*/
+
+users.get_user(config.url_db,'8201516662627', function(data){
+  com.remove_line(config.url_db,data,0,0,function(test){
+    logger.info('command2 : '+JSON.stringify(test));
+  });
 });
 
 });
