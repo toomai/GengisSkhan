@@ -3,8 +3,8 @@ var MongoClient = require('mongodb').MongoClient
 var users = require('./users.js');
 var pro = require('./product.js');
 
-var new_command = function(url,login,callback){
-  users.get_user(url,login,function(data){
+var new_command = function(db,login,callback){
+  users.get_user(db,login,function(data){
     var commande =  {
         "command_id":data.commands.length,
         "date":new Date(),
@@ -13,29 +13,29 @@ var new_command = function(url,login,callback){
         "payed":false
     }
     data.commands[data.commands.length] = commande;
-    users.update_user_command(url,data,function(user){
+    users.update_user_command(db,data,function(user){
       callback(data);
     });
   });
 }
 
-var get_command = function(url,login,id_command,callback){
-  users.get_user(url,login,function(data){
+var get_command = function(db,login,id_command,callback){
+  users.get_user(db,login,function(data){
     callback(data.commands[id_command]);
   });
 }
 
 // Recupere la derniere commande de l'utilisateur'; verifie si la derniere commande est payee
-var get_last_command = function(url,login,callback){
-  users.get_user(url,login,function(data){
+var get_last_command = function(db,login,callback){
+  users.get_user(db,login,function(data){
      callback(data.commands[data.commands.length-1]);
   });
 }
 
-var add_line = function(url,login,id_command,product_id,quantity,callback){
- users.get_user(url,login,function(user){
-    get_command(url,login,id_command,function(command){
-      pro.find_product_code(url,product_id,function(product){
+var add_line = function(db,login,id_command,product_id,quantity,callback){
+ users.get_user(db,login,function(user){
+    get_command(db,login,id_command,function(command){
+      pro.find_product_code(db,product_id,function(product){
         var ligne = {
            "line_id": command.lines.length,
            "product_id":product.product_id,
@@ -48,7 +48,7 @@ var add_line = function(url,login,id_command,product_id,quantity,callback){
          command.lines[command.lines.length] = ligne;
          command.price = command.price + product.price*quantity;
          user.commands[id_command] = command;
-         users.update_user_command(url,user,function(com){
+         users.update_user_command(db,user,function(com){
                callback(user.commands[id_command]);
          });
        });
@@ -57,18 +57,18 @@ var add_line = function(url,login,id_command,product_id,quantity,callback){
 }
 
 /************* NO NEED A PRIORI ***********************
-var end_command = function(url,user,id_command,callback){
+var end_command = function(db,user,id_command,callback){
   //recuperer la commande et solder le prix
   //renvoyer commande
 }
 *******************************************************/
 
 //recuperer la commande et mettre true a payed
-var pay_command = function(url,user,id_command,callback){
-  get_command(url,user.user_id,id_command,function(command){
+var pay_command = function(db,user,id_command,callback){
+  get_command(db,user.user_id,id_command,function(command){
     user.commands[id_command] = command;
     user.commands[id_command].payed = true;
-    users.update_user_command(url, user, function(com){//TO CHECK
+    users.update_user_command(db, user, function(com){//TO CHECK
       callback(command);
     });
   });
@@ -76,11 +76,11 @@ var pay_command = function(url,user,id_command,callback){
 
 /************* NO NEED A PRIORI ***********************
 //ajouter un flag annuler a true sur la commande
-var cancel_command = function(url,user,id_command,callback){
-  get_command(url,user.user_id,id_command,function(command){
+var cancel_command = function(db,user,id_command,callback){
+  get_command(db,user.user_id,id_command,function(command){
     user.commands[id_command] = command;
     user.command.canceled = true;
-    users.update_user_command(url, user, function(com){//TO CHECK
+    users.update_user_command(db, user, function(com){//TO CHECK
       callback(com);
     });
   });
@@ -88,14 +88,14 @@ var cancel_command = function(url,user,id_command,callback){
 ******************************************************/
 
 /************* NO NEED A PRIORI ***********************
-var print_command = function(url,user,id_command,callback){
+var print_command = function(db,user,id_command,callback){
   //normalement a supprimer mcar pareil que get_commmand
 }
 ******************************************************/
 
 //enlever la ligne et retirer le prix du solde
-var remove_line = function(url,user,id_command,id_line,callback){
-  get_command(url,user.user_id,id_command,function(command){
+var remove_line = function(db,user,id_command,id_line,callback){
+  get_command(db,user.user_id,id_command,function(command){
     var prix = command.price;
     prix -= command.lines[id_line].price * command.lines[id_line].quantity;
     command.price = prix;
@@ -113,37 +113,37 @@ var remove_line = function(url,user,id_command,id_line,callback){
       user.commands[id_command].lines = lines;
     }
 
-    users.update_user_command(url, user, function(com){//TO CHECK
+    users.update_user_command(db, user, function(com){//TO CHECK
       callback(user);
     });
   });
 }
 
 //changer qty d'une ligne + ajuster solde
-var change_quantity = function(url,user,id_command,id_line,quantity,callback){
-  get_command(url,user.user_id,id_command,function(command){
+var change_quantity = function(db,user,id_command,id_line,quantity,callback){
+  get_command(db,user.user_id,id_command,function(command){
     var prix = command.price;
     prix -= command.lines[id_line].price * command.lines[id_line].quantity;
     prix += command.lines[id_line].price * quantity;
     command.price = prix;
     command.lines[id_line].quantity = quantity;
     user.commands[id_command] = command;
-    users.update_user_command(url, user, function(com){//TO CHECK
+    users.update_user_command(db, user, function(com){//TO CHECK
       callback(command);
     });
   });
 }
 
 //changer prix de la ligne + ajuster prix
-var change_price = function(url,user,id_command,id_line,price,callback){
-  get_command(url,user.user_id,id_command,function(command){
+var change_price = function(db,user,id_command,id_line,price,callback){
+  get_command(db,user.user_id,id_command,function(command){
     var prix = command.price;
     prix -= command.lines[id_line].price * command.lines[id_line].quantity;
     prix += price * command.lines[id_line].quantity;
     command.price = prix;
     command.lines[id_line].price = price;
     user.commands[id_command] = command;
-    users.update_user_command(url, user, function(com){//TO CHECK
+    users.update_user_command(db, user, function(com){//TO CHECK
       callback(command);
     });
   });
@@ -152,10 +152,7 @@ var change_price = function(url,user,id_command,id_line,price,callback){
 
 exports.new_command = new_command;
 exports.get_command = get_command;
-//exports.end_command = end_command;
 exports.pay_command = pay_command;
-//exports.cancel_command = cancel_command;
-//exports.print_command = print_command;
 exports.add_line = add_line;
 exports.remove_line = remove_line;
 exports.change_quantity = change_quantity;

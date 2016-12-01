@@ -2,6 +2,9 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
 
+var MongoClient = require('mongodb').MongoClient,
+    assert = require('assert');
+
 var logger = require("./logger.js");
 var config = require("./config.js");
 var commands = require("./command.js");
@@ -12,7 +15,7 @@ var command = require("./command.js");
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-var tableConnexions={};
+var tableConnexions = {};
 
 var start = function(callback) {
 
@@ -30,9 +33,23 @@ var stop = function(callback) {
 exports.start = start;
 exports.stop = stop;
 
+function _connect(url, callback) {
+    MongoClient.connect(url, function(err, db) {
+        if (err)
+            logger.info(err);
+        logger.info("Connected successfully to Database");
+        callback(db);
+    });
+}
+
+function _closeDb(db) {
+    db.close();
+    logger.info("Disconnected successfully from server");
+}
+
 function _configureServer(app) {
 
-    app.use('/webapp',express.static(path.join(__dirname, '/..','/web')));
+    app.use('/webapp', express.static(path.join(__dirname, '/..', '/web')));
     app.use('/images', express.static('json/Images'));
     app.use(bodyParser.json());
 
@@ -49,210 +66,204 @@ function _configureServer(app) {
 
 function _configureRoutes(app, io) {
 
-    /*
-    */
-    app.get('/login/:login', function(req, res) {
-        var login = req.params.login;
-        var user = users.get_user(config.url_db,login, function(data) {
-          //data = 1;
-            if (data) {
-                _socketConnection(io, data);
-            } else {
-                res.status(404).send('Error happend');
-            }
+    _connect(config.url_db, function(db) {
+
+        app.get('/login/:login', function(req, res) {
+            var login = req.params.login;
+            var user = users.get_user(db, login, function(data) {
+                if (data) {
+                    _socketConnection(io, data);
+                } else {
+                    res.status(404).send('Error happend');
+                }
+            });
         });
-    });
 
-    //CONNEXION
+        //CONNEXION
 
 
-    app.post('/connect/mobile', function(req, res) {
-        var login = req.body.login;
-        users.get_user(config.url_db,login, function(user) {
-            if (user) {
-                res.status(200).send(user);
-            } else {
-                res.status(404).send('Error happend');
-            }
+        app.post('/connect/mobile', function(req, res) {
+            var login = req.body.login;
+            users.get_user(db, login, function(user) {
+                if (user) {
+                    res.status(200).send(user);
+                } else {
+                    res.status(404).send('Error happend');
+                }
+            });
         });
-    });
 
-    //USER WILL A NEW COMMAND
+        //USER WILL A NEW COMMAND
 
 
-    app.get('/command/new/:login', function(req, res) {
-        var login = req.params.login;
-        users.get_user(config.url_db,login, function(user) {
-            if (user) {
-                commands.new_command(config.url_db,user.user_id, function(command) {
-                    if (command){
+        app.get('/command/new/:login', function(req, res) {
+            var login = req.params.login;
+            commands.new_command(db, login, function(command) {
+                if (command) {
+                    res.status(200).send(command);
+                } else {
+                    res.status(404).send('Error happend');
+                }
+            });
+
+        });
+
+        //USER WILL ADD A NEW PRODUCT
+
+
+        app.post('/command/add', function(req, res) {
+            var login = req.body.login;
+            var command_id = req.body.command;
+            var product = req.body.product;
+            var quantity = req.body.quantity;
+            commands.add_line(db, login, command_id, product, quantity, function(command) {
+                if (command) {
+                    commands.get_command(db, login, command_id, function(data) {
+                        if (data) {
+                            res.status(200).send(command);
+                            //   tableConnexions[user.user_id].emit(command);
+                        } else {
+                            res.status(404).send('Error happend');
+                        }
+                    });
+                }
+            });
+        });
+
+
+
+        //USER WILL PAY HIS COMMAND
+
+
+        app.get('/command/pay/:login/:command', function(req, res) {
+            var login = req.params.login;
+            var command_id = req.params.command;
+
+            commands.pay_command(db, login, command_id, function(command) {
+                if (command) {
+                    res.status(200).send(command);
+                } else {
+                    res.status(404).send('Error happend');
+                }
+            });
+        });
+
+
+        app.get('/command/last/:login', function(req, res) {
+            var login = req.params.login;
+
+            commands.get_last_command(db, login, function(command) {
+                if (command) {
+                    res.status(200).send(command);
+                } else {
+                    res.status(404).send('Error happend');
+                }
+            });
+        });
+
+        app.post('/command/remove', function(req, res) {
+            var login = req.body.login;
+            var command_id = req.body.command;
+            var line_id = req.body.line;
+
+            users.get_user(db, login, function(user) {
+                commands.remove_line(db, user, command_id, line_id, function(command) {
+                    if (command) {
                         res.status(200).send(command);
-
                     } else {
                         res.status(404).send('Error happend');
                     }
-                });
-            }
+                })
+            });
         });
 
-    });
 
-    //USER WILL ADD A NEW PRODUCT
+        app.post('/command/modify/quantity', function(req, res) {
+            var login = req.body.login;
+            var command_id = req.body.command;
+            var line_id = req.body.line;
+            var quantity = req.body.quantity;
 
-
-    app.post('/command/add', function(req, res) {
-        var login = req.body.login;
-        var command_id = req.body.command;
-        var product = req.body.product;
-        var quantity = req.body.quantity;
-
-        users.get_user(config.url_db,login, function(user) {
-            if (user) {
-                products.find_product_code(config.url_db,product, function(product) {
-                    if (product) {
-                        commands.add_line(config.url_db,user.user_id, command_id, product.product_id, quantity, function(command) {
-                            if (command) {
-                                commands.get_command(config.url_db,user.user_id, command_id, function(data) {
-                                    if (data) {
-                                        res.status(200).send(command);
-                                     //   tableConnexions[user.user_id].emit(command);
-                                    } else {
-                                        res.status(404).send('Error happend');
-                                    }
-                                });
-                            }
-                        });
+            users.get_user(db, login, function(user) {
+                commands.change_quantity(db, user, command_id, line_id, quantity, function(command) {
+                    if (command) {
+                        res.status(200).send(command);
+                    } else {
+                        res.status(404).send('Error happend');
                     }
-                });
-            }
+                })
+            });
         });
-    });
 
 
-    //USER WILL PAY HIS COMMAND
+        app.post('/command/modify/price', function(req, res) {
+            var login = req.body.login;
+            var command_id = req.body.command;
+            var line_id = req.body.line;
+            var price = req.body.price;
 
-
-    app.get('/command/pay/:login/:command', function(req, res) {
-        var login = req.params.login;
-        var command_id = req.params.command;
-
-        users.get_user(config.url_db,login, function(user) {
-            commands.pay_command(config.url_db,user.user_id, command_id, function(command) {
-                if (command) {
-                    res.status(200).send(command);
-                } else {
-                    res.status(404).send('Error happend');
-                }
-            })
+            users.get_user(db, login, function(user) {
+                commands.change_price(db, user, command_id, line_id, price, function(command) {
+                    if (command) {
+                        res.status(200).send(command);
+                    } else {
+                        res.status(404).send('Error happend');
+                    }
+                })
+            });
         });
-    });
 
+        //NO ROUTE FOUND
 
-app.get('/command/last/:login', function(req, res) {
-        var login = req.params.login;
-
-            commands.get_last_command(config.url_db,login,function(command) {
-                if (command) {
-                    res.status(200).send(command);
-                } else {
-                    res.status(404).send('Error happend');
-                }
+        app.use('*', function(req, res, next) {
+            res.status(404).send('No route');
         });
-    });
 
- app.post('/command/remove', function(req, res) {
-        var login = req.body.login;
-        var command_id = req.body.command;
-         var line_id = req.body.line;
-
-        users.get_user(config.url_db,login, function(user) {
-            commands.remove_line(config.url_db,user, command_id,line_id, function(command) {
-                if (command) {
-                    res.status(200).send(command);
-                } else {
-                    res.status(404).send('Error happend');
-                }
-            })
-        });
     });
 
 
-app.post('/command/modify/quantity', function(req, res) {
-        var login = req.body.login;
-        var command_id = req.body.command;
-         var line_id = req.body.line;
-         var quantity = req.body.quantity;
 
-        users.get_user(config.url_db,login, function(user) {
-            commands.change_quantity(config.url_db,user, command_id,line_id, quantity,function(command) {
-                if (command) {
-                    res.status(200).send(command);
-                } else {
-                    res.status(404).send('Error happend');
-                }
-            })
-        });
-    });
-
-
-app.post('/command/modify/price', function(req, res) {
-        var login = req.body.login;
-        var command_id = req.body.command;
-         var line_id = req.body.line;
-         var price = req.body.price;
-
-        users.get_user(config.url_db,login, function(user) {
-            commands.change_price(config.url_db,user, command_id,line_id,price, function(command) {
-                if (command) {
-                    res.status(200).send(command);
-                } else {
-                    res.status(404).send('Error happend');
-                }
-            })
-        });
-    });
-
-    //NO ROUTE FOUND
-
-    app.use('*', function(req, res, next) {
-        res.status(404).send('No route');
-    });
 }
 
-io.on('connection', function(socket){
-  socket.emit('connected');
-  logger.info("A user just connected");
-  users.get_users(config.url_db,function(data){
-    if(data){
-      socket.emit('listeUser',data);
-    }else{
-      socket.emit('error', 'ZUT');
-    }
-  });
 
-  socket.on('payement', function(data){
-    users.get_user(config.url_db, data.usr, function(userToPay){
-      commands.pay_command(config.url_db,userToPay, data.commande.command_id,function(comm){
-         if(comm){
-           tableConnexions[data.usr].emit('paymentAccepted', null);
-         }else{
-           tableConnexions[data.usr].emit('payementRefused', null);
-         }
-       });
-    });
-  });
-  socket.on('userId', function(data){
-    tableConnexions[data] = socket;
-    commands.get_last_command(config.url_db, data,function(currentCommand){
-      if(currentCommand){
-        if(currentCommand.payed === false){
-          tableConnexions[data].emit('currentCommand', currentCommand);
-        }else{
-          tableConnexions[data].emit('commandAlreadyPayed', null);
+
+io.on('connection', function(socket) {
+    socket.emit('connected');
+    logger.info("A user just connected");
+    users.get_users(db, function(data) {
+        if (data) {
+            socket.emit('listeUser', data);
+        } else {
+            socket.emit('error', 'ZUT');
         }
-      }else{
-        tableConnexions[data].emit('error', 'ZUT');
-      }
     });
-  });
+
+    _connect(config.url_db, function(db) {
+        socket.on('payement', function(data) {
+            users.get_user(db, data.usr, function(userToPay) {
+                commands.pay_command(db, userToPay, data.commande.command_id, function(comm) {
+                    if (comm) {
+                        tableConnexions[data.usr].emit('paymentAccepted', null);
+                    } else {
+                        tableConnexions[data.usr].emit('payementRefused', null);
+                    }
+                });
+            });
+        });
+
+        socket.on('userId', function(data) {
+            tableConnexions[data] = socket;
+            commands.get_last_command(db, data, function(currentCommand) {
+                if (currentCommand) {
+                    if (currentCommand.payed === false) {
+                        tableConnexions[data].emit('currentCommand', currentCommand);
+                    } else {
+                        tableConnexions[data].emit('commandAlreadyPayed', null);
+                    }
+                } else {
+                    tableConnexions[data].emit('error', 'ZUT');
+                }
+            });
+        });
+    });
 });
