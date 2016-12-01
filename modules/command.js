@@ -28,7 +28,7 @@ var get_command = function(url,login,id_command,callback){
 // Recupere la derniere commande de l'utilisateur'; verifie si la derniere commande est payee
 var get_last_command = function(url,login,callback){
   users.get_user(url,login,function(data){
-     callback(data.commands[commands.length-1]);
+     callback(data.commands[data.commands.length-1]);
   });
 }
 
@@ -110,9 +110,9 @@ var remove_line = function(url,user,id_command,id_line,callback){
         lines[indice] = command.lines[indice];
         console.log(lines[indice]);
       }
-      user.commands[id_command].lines = lines;      
+      user.commands[id_command].lines = lines;
     }
-    
+
     users.update_user_command(url, user, function(com){//TO CHECK
       callback(user);
     });
@@ -160,3 +160,4 @@ exports.add_line = add_line;
 exports.remove_line = remove_line;
 exports.change_quantity = change_quantity;
 exports.change_price = change_price;
+exports.get_last_command = get_last_command;

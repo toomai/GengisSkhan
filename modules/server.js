@@ -229,7 +229,7 @@ app.post('/command/modify/price', function(req, res) {
 io.on('connection', function(socket){
   socket.emit('connected');
   logger.info("A user just connected");
-  var listUser = users.get_users(config.url_db,function(data){
+  users.get_users(config.url_db,function(data){
     if(data){
       socket.emit('listeUser',data);
     }else{
@@ -238,5 +238,16 @@ io.on('connection', function(socket){
   });
   socket.on('userId', function(data){
     tableConnexions[data] = socket;
+    commands.get_last_command(config.url_db, data,function(currentCommand){
+      if(currentCommand){
+        if(currentCommand.payed === false){
+          tableConnexions[data].emit('currentCommand', currentCommand);
+        }else{
+          tableConnexions[data].emit('commandAlreadyPayed', null);
+        }
+      }else{
+        tableConnexions[data].emit('error', 'ZUT');
+      }
+    });
   });
 });
