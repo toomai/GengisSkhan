@@ -33,7 +33,7 @@ exports.stop = stop;
 function _configureServer(app) {
 
     app.use('/webapp',express.static(path.join(__dirname, '/..','/web')));
-
+    app.use('/images', express.static('json/Images'));
     app.use(bodyParser.json());
 
     app.use(bodyParser.urlencoded({
@@ -232,8 +232,8 @@ io.on('connection', function(socket){
 
   socket.on('payement', function(data){
     users.get_user(config.url_db, data.usr, function(userToPay){
-      commands.pay_command(config.url_db,userToPay, data.commande.command_id,function(data){
-         if(data){
+      commands.pay_command(config.url_db,userToPay, data.commande.command_id,function(comm){
+         if(comm){
            tableConnexions[data.usr].emit('paymentAccepted', null);
          }else{
            tableConnexions[data.usr].emit('payementRefused', null);

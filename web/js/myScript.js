@@ -73,16 +73,35 @@ $(document).ready(function() {
           usr : currentUserid,
           commande : currentCommand
       };
-      console.log('avant envoi')
       socket.emit('payement', pay);
-      console.log('après envoi')
     });
 
     socket.on('paymentAccepted',function(data){
-      console.log('payement accepté');
+
     });
     socket.on('payementRefused',function(data){
       console.log('payement refusé');
     });
+
+    function afficherNotif(message, code) {
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+        toastr[code](message);
+    }
     return;
 });
