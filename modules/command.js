@@ -25,6 +25,13 @@ var get_command = function(url,login,id_command,callback){
   });
 }
 
+// Recupere la derniere commande de l'utilisateur'; verifie si la derniere commande est payee
+var get_last_command = function(url,login,callback){
+  users.get_user(url,login,function(data){
+     callback(data.commands[commands.length-1]);
+  });
+}
+
 var add_line = function(url,login,id_command,product_id,quantity,callback){
  users.get_user(url,login,function(user){
     get_command(url,login,id_command,function(command){
