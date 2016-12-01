@@ -137,7 +137,7 @@ function _configureRoutes(app, io) {
         var command_id = req.params.command;
 
         users.get_user(config.url_db,login, function(user) {
-            commands.pay_command(config.url_db,user, command_id, function(command) {
+            commands.pay_command(config.url_db,user.user_id, command_id, function(command) {
                 if (command) {
                     res.status(200).send(command);
                 } else {
@@ -230,8 +230,16 @@ io.on('connection', function(socket){
     }
   });
 
-  io.on('payement', function(data){
-
+  socket.on('payement', function(data){
+    users.get_user(config.url_db, data.usr, function(userToPay){
+      commands.pay_command(config.url_db,userToPay, data.commande.command_id,function(data){
+         if(data){
+           tableConnexions[data.usr].emit('paymentAccepted', null);
+         }else{
+           tableConnexions[data.usr].emit('payementRefused', null);
+         }
+       });
+    });
   });
   socket.on('userId', function(data){
     tableConnexions[data] = socket;

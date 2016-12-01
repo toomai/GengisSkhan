@@ -54,6 +54,7 @@ $(document).ready(function() {
       currentCommand = data;
       for(var prod in lines){
         var line = lines[prod];
+        tableCourses.clear();
         tableCourses.row.add([line.line_id+1, line.name, line.image,
            line.product_id, line.description, line.price, line.quantity,
             (line.quantity * line.price), null]).draw(false);
@@ -70,9 +71,18 @@ $(document).ready(function() {
     $('#payement').on('click', function(){
       var pay = {
           usr : currentUserid,
-          commande :
+          commande : currentCommand
       };
-      socket.emit('payement', currentUserid);
+      console.log('avant envoi')
+      socket.emit('payement', pay);
+      console.log('après envoi')
+    });
+
+    socket.on('paymentAccepted',function(data){
+      console.log('payement accepté');
+    });
+    socket.on('payementRefused',function(data){
+      console.log('payement refusé');
     });
     return;
 });
