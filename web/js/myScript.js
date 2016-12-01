@@ -5,7 +5,8 @@ $(document).ready(function() {
     var userLists = {};
     var currentUserid;
 
-    $("#tableCourses").dataTable({
+
+    var tableCourses = $("#tableCourses").DataTable({
       "columns": [
               null,
               null,
@@ -19,11 +20,11 @@ $(document).ready(function() {
           ]
     });
 
-    $('#tableCourses tbody').on('click', 'tr', function(){
+    $('#tableCourses').on('click', 'tr', function(){
       if($(this).hasClass('selected')){
         $(this).removeClass('selected');
       }else{
-        $('#tableCourses').$('tr.selected').removeClass('selected');
+        tableCourses.$('tr.selected').removeClass('selected');
         $(this).addClass('selected');
       }
       return false;
@@ -49,11 +50,12 @@ $(document).ready(function() {
       $('#commande_user').show();
       var i = 0;
       var lines = data.lines;
-      console.log(lines);
+
       for(var prod in lines){
         var line = lines[prod];
-        $('#tableCourses').row.add(line.line_id, line.name, line.image,
-           line.product_id, line.description, line.price, line.quantity, (line.quantity * line.price), null);
+        tableCourses.row.add([line.line_id+1, line.name, line.image,
+           line.product_id, line.description, line.price, line.quantity,
+            (line.quantity * line.price), null]).draw(false);
       }
     /*    $('#tableCourses').row.add(++i,data.lines[key].name,data.lines[key].image,
           [data[key].product_id,data[key].description,
