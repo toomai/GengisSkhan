@@ -68,10 +68,8 @@ function _configureRoutes(app, io) {
 
     app.post('/connect/mobile', function(req, res) {
         var login = req.body.login;
-        logger.info(login);
         users.get_user(config.url_db,login, function(user) {
             if (user) {
-                logger.info(user);
                 res.status(200).send(user);
             } else {
                 res.status(404).send('Error happend');
@@ -148,6 +146,61 @@ function _configureRoutes(app, io) {
             })
         });
     });
+
+
+
+ app.post('/command/remove', function(req, res) {
+        var login = req.body.login;
+        var command_id = req.body.command;
+         var line_id = req.body.line;
+
+        users.get_user(config.url_db,login, function(user) {
+            commands.remove_line(config.url_db,user, command_id,line_id, function(command) {
+                if (command) {
+                    res.status(200).send(command);
+                } else {
+                    res.status(404).send('Error happend');
+                }
+            })
+        });
+    });
+
+
+app.post('/command/modify/quantity', function(req, res) {
+        var login = req.body.login;
+        var command_id = req.body.command;
+         var line_id = req.body.line;
+         var quantity = req.body.quantity;
+
+        users.get_user(config.url_db,login, function(user) {
+            commands.change_quantity(config.url_db,user, command_id,line_id, quantity,function(command) {
+                if (command) {
+                    res.status(200).send(command);
+                } else {
+                    res.status(404).send('Error happend');
+                }
+            })
+        });
+    });
+
+
+app.post('/command/modify/price', function(req, res) {
+        var login = req.body.login;
+        var command_id = req.body.command;
+         var line_id = req.body.line;
+         var price = req.body.price;
+
+        users.get_user(config.url_db,login, function(user) {
+            commands.change_price(config.url_db,user, command_id,line_id,price, function(command) {
+                if (command) {
+                    res.status(200).send(command);
+                } else {
+                    res.status(404).send('Error happend');
+                }
+            })
+        });
+    });
+
 
     //USER WILL END HIS COMMAND
 

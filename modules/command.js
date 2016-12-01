@@ -5,7 +5,6 @@ var pro = require('./product.js');
 
 var new_command = function(url,login,callback){
   users.get_user(url,login,function(data){
-    console.log(data)
     var commande =  {
         "command_id":data.commands.length,
         "date":new Date(),
@@ -27,8 +26,7 @@ var get_command = function(url,login,id_command,callback){
 }
 
 var add_line = function(url,login,id_command,product_id,quantity,callback){
-  console.log(id_command)
-  users.get_user(url,login,function(user){
+ users.get_user(url,login,function(user){
     get_command(url,login,id_command,function(command){
       pro.find_product_code(url,product_id,function(product){
         var ligne = {
@@ -51,22 +49,25 @@ var add_line = function(url,login,id_command,product_id,quantity,callback){
   });
 }
 
+/************* NO NEED A PRIORI ***********************
 var end_command = function(url,user,id_command,callback){
   //recuperer la commande et solder le prix
   //renvoyer commande
 }
+*******************************************************/
 
 //recuperer la commande et mettre true a payed
 var pay_command = function(url,user,id_command,callback){
   get_command(url,user.user_id,id_command,function(command){
     user.commands[id_command] = command;
-    user.commands.payed = true;
+    user.commands[id_command].payed = true;
     users.update_user_command(url, user, function(com){//TO CHECK
       callback(command);
     });
   });
 }
 
+/************* NO NEED A PRIORI ***********************
 //ajouter un flag annuler a true sur la commande
 var cancel_command = function(url,user,id_command,callback){
   get_command(url,user.user_id,id_command,function(command){
@@ -77,15 +78,38 @@ var cancel_command = function(url,user,id_command,callback){
     });
   });
 }
+******************************************************/
 
+/************* NO NEED A PRIORI ***********************
 var print_command = function(url,user,id_command,callback){
   //normalement a supprimer mcar pareil que get_commmand
 }
+******************************************************/
 
-
-
+//enlever la ligne et retirer le prix du solde
 var remove_line = function(url,user,id_command,id_line,callback){
-  //enlever la ligne et retirer le prix du solde
+  get_command(url,user.user_id,id_command,function(command){
+    var prix = command.price;
+    prix -= command.lines[id_line].price * command.lines[id_line].quantity;
+    command.price = prix;
+
+    if(command.lines.length === 1){
+      var lines = [];
+      user.commands[id_command].lines = lines;
+    }else{
+      command.lines[id_line] = command.lines[command.lines.length-1];
+      var indice, lines = [];
+      for(indice = 0; indice < command.lines.length-1; indice++){
+        lines[indice] = command.lines[indice];
+        console.log(lines[indice]);
+      }
+      user.commands[id_command].lines = lines;      
+    }
+    
+    users.update_user_command(url, user, function(com){//TO CHECK
+      callback(user);
+    });
+  });
 }
 
 //changer qty d'une ligne + ajuster solde
@@ -96,8 +120,9 @@ var change_quantity = function(url,user,id_command,id_line,quantity,callback){
     prix += command.lines[id_line].price * quantity;
     command.price = prix;
     command.lines[id_line].quantity = quantity;
+    user.commands[id_command] = command;
     users.update_user_command(url, user, function(com){//TO CHECK
-      callback(com);
+      callback(command);
     });
   });
 }
@@ -110,8 +135,9 @@ var change_price = function(url,user,id_command,id_line,price,callback){
     prix += price * command.lines[id_line].quantity;
     command.price = prix;
     command.lines[id_line].price = price;
+    user.commands[id_command] = command;
     users.update_user_command(url, user, function(com){//TO CHECK
-      callback(com);
+      callback(command);
     });
   });
 }
@@ -119,10 +145,10 @@ var change_price = function(url,user,id_command,id_line,price,callback){
 
 exports.new_command = new_command;
 exports.get_command = get_command;
-exports.end_command = end_command;
+//exports.end_command = end_command;
 exports.pay_command = pay_command;
-exports.cancel_command = cancel_command;
-exports.print_command = print_command;
+//exports.cancel_command = cancel_command;
+//exports.print_command = print_command;
 exports.add_line = add_line;
 exports.remove_line = remove_line;
 exports.change_quantity = change_quantity;
