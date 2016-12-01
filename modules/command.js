@@ -86,9 +86,25 @@ var print_command = function(url,user,id_command,callback){
 }
 ******************************************************/
 
-
+//enlever la ligne et retirer le prix du solde
 var remove_line = function(url,user,id_command,id_line,callback){
-  //enlever la ligne et retirer le prix du solde
+  get_command(url,user.user_id,id_command,function(command){
+    var prix = command.price;
+    prix -= command.lines[id_line].price * command.lines[id_line].quantity;
+    command.price = prix;
+
+    if(command.lines.length === 1){
+      var lines = [];
+      user.commands[id_command].lines = lines;
+    }else{
+      user.commands[id_command].lines[id_line] = command.lines[command.lines.length-1];
+      
+    }
+    
+    users.update_user_command(url, user, function(com){//TO CHECK
+      callback(command);
+    });
+  });
 }
 
 //changer qty d'une ligne + ajuster solde
