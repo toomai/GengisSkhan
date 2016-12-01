@@ -52,9 +52,9 @@ $(document).ready(function() {
       $('#titreCommandeUser').append(currentUserid);
       var lines = data.lines;
       currentCommand = data;
+      tableCourses.clear();
       for(var prod in lines){
         var line = lines[prod];
-        tableCourses.clear();
         tableCourses.row.add([line.line_id+1, line.name, line.image,
            line.product_id, line.description, line.price, line.quantity,
             (line.quantity * line.price), null]).draw(false);
