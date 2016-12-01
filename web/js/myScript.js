@@ -77,7 +77,7 @@ $(document).ready(function() {
     });
 
     socket.on('paymentAccepted',function(data){
-
+      afficherNotif('Payement Accepté', 'success')
     });
     socket.on('payementRefused',function(data){
       afficherNotif('Payement refusé', 'error')

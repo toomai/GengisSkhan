@@ -20,7 +20,7 @@ var tableConnexions = {};
 var start = function(callback) {
 
     _configureServer(app);
-    _configureRoutes(app, io);
+    _configureRoutes(app);
 
     server.listen(process.env.PORT || config.port, callback);
 }
@@ -64,7 +64,7 @@ function _configureServer(app) {
 
 }
 
-function _configureRoutes(app, io) {
+function _configureRoutes(app) {
 
     _connect(config.url_db, function(db) {
 
@@ -218,6 +218,7 @@ function _configureRoutes(app, io) {
 io.on('connection', function(socket) {
     socket.emit('connected');
     logger.info("A user just connected");
+    _connect(config.url_db, function(db) {
     users.get_users(db, function(data) {
         if (data) {
             socket.emit('listeUser', data);
@@ -226,7 +227,6 @@ io.on('connection', function(socket) {
         }
     });
 
-    _connect(config.url_db, function(db) {
         socket.on('payement', function(data) {
             users.get_user(db, data.usr, function(userToPay) {
                 commands.pay_command(db, userToPay, data.commande.command_id, function(comm) {
