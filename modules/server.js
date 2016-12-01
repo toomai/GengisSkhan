@@ -150,7 +150,7 @@ function _configureRoutes(app, io) {
 
 app.get('/command/last/:login', function(req, res) {
         var login = req.params.login;
-   
+
             commands.get_last_command(config.url_db,login,function(command) {
                 if (command) {
                     res.status(200).send(command);
@@ -228,6 +228,10 @@ io.on('connection', function(socket){
     }else{
       socket.emit('error', 'ZUT');
     }
+  });
+
+  io.on('payement', function(data){
+
   });
   socket.on('userId', function(data){
     tableConnexions[data] = socket;

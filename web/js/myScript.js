@@ -4,7 +4,7 @@ $(document).ready(function() {
     var socket = io();
     var userLists = {};
     var currentUserid;
-
+    var currentCommand;
 
     var tableCourses = $("#tableCourses").DataTable({
       "columns": [
@@ -48,18 +48,16 @@ $(document).ready(function() {
     socket.on('currentCommand',function(data){
       $('#connexion').hide();
       $('#commande_user').show();
-      var i = 0;
+      $('#titreCommandeDate').append(data.date);
+      $('#titreCommandeUser').append(currentUserid);
       var lines = data.lines;
-
+      currentCommand = data;
       for(var prod in lines){
         var line = lines[prod];
         tableCourses.row.add([line.line_id+1, line.name, line.image,
            line.product_id, line.description, line.price, line.quantity,
             (line.quantity * line.price), null]).draw(false);
       }
-    /*    $('#tableCourses').row.add(++i,data.lines[key].name,data.lines[key].image,
-          [data[key].product_id,data[key].description,
-          data[key].price,null ]).draw(false);*/
     });
     socket.on('error', function(data){
       console.log('An error occured');
@@ -70,10 +68,11 @@ $(document).ready(function() {
     });
 
     $('#payement').on('click', function(){
-
+      var pay = {
+          usr : currentUserid,
+          commande :
+      };
+      socket.emit('payement', currentUserid);
     });
-  //  io.connect('https://gengisskhan.herokuapp.com/');
-
-
     return;
 });
