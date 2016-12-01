@@ -97,12 +97,17 @@ var remove_line = function(url,user,id_command,id_line,callback){
       var lines = [];
       user.commands[id_command].lines = lines;
     }else{
-      user.commands[id_command].lines[id_line] = command.lines[command.lines.length-1];
-      
+      command.lines[id_line] = command.lines[command.lines.length-1];
+      var indice, lines = [];
+      for(indice = 0; indice < command.lines.length-1; indice++){
+        lines[indice] = command.lines[indice];
+        console.log(lines[indice]);
+      }
+      user.commands[id_command].lines = lines;      
     }
     
     users.update_user_command(url, user, function(com){//TO CHECK
-      callback(command);
+      callback(user);
     });
   });
 }
