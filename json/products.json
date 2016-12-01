@@ -68,5 +68,12 @@
 		"price":3.25,
 		"description":"Bon savon pour sentir bon. Attention de ne pas le laisser glisser",
 		"image":"../image/savon.jpg"
-	}
+	},
+"9780161796257":	{
+		"product_id":"9780161796257",
+		"name":"Cochon",
+		"price":10.50,
+		"description":"Tout est bon dans le cochon!",
+		"image":"cochon.jpg"
+}
 }
