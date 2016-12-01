@@ -157,6 +157,17 @@ function _configureRoutes(app, io) {
     });
 
 
+app.get('/command/last/:login', function(req, res) {
+        var login = req.params.login;
+   
+            commands.get_last_command(config.url_db,login,function(command) {
+                if (command) {
+                    res.status(200).send(command);
+                } else {
+                    res.status(404).send('Error happend');
+                }
+        });
+    });
 
  app.post('/command/remove', function(req, res) {
         var login = req.body.login;
@@ -202,24 +213,6 @@ app.post('/command/modify/price', function(req, res) {
         users.get_user(config.url_db,login, function(user) {
             commands.change_price(config.url_db,user, command_id,line_id,price, function(command) {
                 if (command) {
-                    res.status(200).send(command);
-                } else {
-                    res.status(404).send('Error happend');
-                }
-            })
-        });
-    });
-
-
-    //USER WILL END HIS COMMAND
-
-
-    app.get('/command/end/:login/:command', function(req, res) {
-        var login = req.params.login;
-        var command_id = req.params.command;
-        users.get_user(config.url_db,login, function(user) {
-            commands.end_command(config.url_db,user, command_id, function(command) {
-                 if (command) {
                     res.status(200).send(command);
                 } else {
                     res.status(404).send('Error happend');
