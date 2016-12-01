@@ -80,7 +80,7 @@ $(document).ready(function() {
 
     });
     socket.on('payementRefused',function(data){
-      console.log('payement refusé');
+      afficherNotif('Payement refusé', 'error')
     });
 
     function afficherNotif(message, code) {

@@ -14,6 +14,7 @@
     "mongodb": "^2.2.11",
     "mongoose": "^4.6.8",
     "socket.io": "^1.5.1",
+    "toastr": "^2.1.2",
     "winston": "^2.2.0"
   }
 }
