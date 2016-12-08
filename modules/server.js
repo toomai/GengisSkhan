@@ -17,6 +17,8 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var tableConnexions = {};
 
+var fs = require('fs');
+
 var start = function(callback) {
 
     _configureServer(app);
@@ -50,7 +52,9 @@ function _closeDb(db) {
 function _configureServer(app) {
 
     app.use('/webapp', express.static(path.join(__dirname, '/..', '/web')));
+
     app.use('/images', express.static('json/Images'));
+    
     app.use(bodyParser.json());
 
     app.use(bodyParser.urlencoded({
@@ -60,6 +64,11 @@ function _configureServer(app) {
     app.use(function(req, res, next) {
         logger.info('Request URL:' + req.originalUrl);
         next();
+    });
+
+    app.get('/', function(req, res) {
+        var fichier = fs.readFileSync("./web/index.html","UTF8");
+        res.status(200).send(fichier);
     });
 
 }
@@ -227,7 +236,7 @@ io.on('connection', function(socket) {
         }
     });
 
-        socket.on('payement', function(data) {
+        socket.on('payement', function (data) {
             users.get_user(db, data.usr, function(userToPay) {
                 commands.pay_command(db, userToPay, data.commande.command_id, function(comm) {
                     if (comm) {
