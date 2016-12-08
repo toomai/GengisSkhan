@@ -54,7 +54,7 @@ function _configureServer(app) {
     app.use('/webapp', express.static(path.join(__dirname, '/..', '/web')));
 
     app.use('/images', express.static('json/Images'));
-    
+
     app.use(bodyParser.json());
 
     app.use(bodyParser.urlencoded({
