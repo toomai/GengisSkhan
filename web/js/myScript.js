@@ -86,8 +86,22 @@ $(document).ready(function() {
         socket.emit('userId', currentUserid);
     });
 
-    $('#tableCourses').on('click', 'a.suppress', function() {
-        console.log('coucou');
+    $('#tableCourses').on('click', 'a.suppress', function(e) {
+      //var data = tableCourses.row('.selected');
+      var data = $(this).closest('tr');
+      var da = Array();
+      var i = 0;
+      data.children('td').each(function(){
+        da[i] = $(this).text();
+        i++;
+      });
+      var commandToSuppr = {
+        usr: currentUserid,
+        commande: currentCommand,
+        lineToSuppress : (da[0] - 1)
+      };
+
+      socket.emit('suppressLine', commandToSuppr);
     });
 
     $('#payement').on('click', function() {

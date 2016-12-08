@@ -6,7 +6,7 @@ var logger = require("./logger.js");
 
 var get_user= function (db,login, callback){
     findUser(db,login,function(docs){
-      callback(docs[0]);
+          callback(docs[0]);
     });
 }
 
