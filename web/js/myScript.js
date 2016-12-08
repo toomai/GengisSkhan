@@ -43,13 +43,14 @@ $(document).ready(function() {
       }
     });
     socket.on('commandAlreadyPayed', function(data){
-      console.log('La commande a déjà été payée');
+      afficherNotif('La commande a déjà été payée','error');
     });
     socket.on('currentCommand',function(data){
       $('#connexion').hide();
       $('#commande_user').show();
       $('#titreCommandeDate').append(data.date);
       $('#titreCommandeUser').append(currentUserid);
+      $('#totalCom').append(data.price);
       var lines = data.lines;
       currentCommand = data;
       tableCourses.clear();
@@ -77,12 +78,21 @@ $(document).ready(function() {
     });
 
     socket.on('paymentAccepted',function(data){
-      afficherNotif('Payement Accepté', 'success')
+      afficherNotif('Payement Accepté, à la prochaine !', 'success');
+      closeCommande();
     });
     socket.on('payementRefused',function(data){
-      afficherNotif('Payement refusé', 'error')
+      afficherNotif('Payement refusé', 'error');
     });
 
+    function closeCommande(){
+      $('#commande_user').hide();
+      $('#connexion').show();
+      socket.emit('disconnect', currentUserid);
+      socket = undefined;
+      currentUserid = undefined;
+      currentCommand = undefined;
+    }
     function afficherNotif(message, code) {
         toastr.options = {
             "closeButton": false,
@@ -103,5 +113,7 @@ $(document).ready(function() {
         }
         toastr[code](message);
     }
+
+
     return;
 });
