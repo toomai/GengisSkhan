@@ -16,6 +16,21 @@ var get_users= function (db,callback){
     });
 }
 
+// Renvoi les utilisateurs avec une commande active
+var get_users_with_commands = function(db, callback){
+  findUsers(db,function(docs){
+      var users = [];
+      var indice = 0;
+      docs.forEach(function(element) {
+        if(!element.commands[element.commands.length-1].payed){
+          users[indice] = element;
+          indice++;
+        }
+      });
+      callback(users);
+    });
+}
+
 var update_user_command=function(db,user,callback){
      update_command(db,user,function(docs){
         callback(docs[0]);
@@ -25,6 +40,7 @@ var update_user_command=function(db,user,callback){
 exports.get_user = get_user;
 exports.update_user_command = update_user_command;
 exports.get_users = get_users;
+exports.get_users_with_commands = get_users_with_commands;
 
 var update_command = function(db,user,callback){
   var collection = db.collection('users');

@@ -238,7 +238,7 @@ io.on('connection', function(socket) {
     socket.emit('connected');
     logger.info("A user just connected");
     _connect(config.url_db, function(db) {
-    users.get_users(db, function(data) {
+    users.get_users_with_commands(db, function(data) {
         if (data) {
             socket.emit('listeUser', data);
         } else {
