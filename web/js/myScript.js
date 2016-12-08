@@ -57,7 +57,7 @@ $(document).ready(function() {
       tableCourses.clear();
       for(var prod in lines){
         var line = lines[prod];
-        tableCourses.row.add([line.line_id+1, line.name, line.image,
+        tableCourses.row.add([line.line_id+1, line.name, '<img src="https://gengiskhan.herokuapp.com/images/'+line.image+'" alt="img" height="42" width="42" >',
            line.product_id, line.description, line.price, line.quantity,
             (line.quantity * line.price), null]).draw(false);
       }
