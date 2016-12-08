@@ -245,7 +245,13 @@ io.on('connection', function(socket) {
             socket.emit('error', 'ZUT');
         }
     });
-
+    socket.on('suppressLine', function(data){
+      users.get_user(db, data.usr, function(userA){
+        commands.remove_line(db, userA, data.commande.command_id, data.lineToSuppress,function(commandMod){
+          actualiseSocket(data.usr, commandeMod)
+        });
+      });
+    });
         socket.on('payement', function (data) {
             users.get_user(db, data.usr, function(userToPay) {
                 commands.pay_command(db, userToPay, data.commande.command_id, function(comm) {
