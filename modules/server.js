@@ -119,6 +119,7 @@ function _configureRoutes(app) {
                     commands.get_command(db, login, command_id, function(data) {
                         if (data) {
                             res.status(200).send(command);
+                            actualiseSocket(login, command);
                         } else {
                             res.status(404).send('Error happend');
                         }
@@ -185,6 +186,7 @@ function _configureRoutes(app) {
                 commands.change_quantity(db, user, command_id, line_id, quantity, function(command) {
                     if (command) {
                         res.status(200).send(command);
+                        actualiseSocket(login, command);
                     } else {
                         res.status(404).send('Error happend');
                     }
@@ -224,6 +226,14 @@ function _configureRoutes(app) {
 
 
 
+var actualiseSocket = function(idUser, commande){
+  console.log(tableConnexions[idUser]);
+  if(tableConnexions[idUser]){
+    tableConnexions[idUser].emit('currentCommand', currentCommand);
+  }else{
+  }
+}
+
 io.on('connection', function(socket) {
     socket.emit('connected');
     logger.info("A user just connected");
@@ -261,6 +271,11 @@ io.on('connection', function(socket) {
                     tableConnexions[data].emit('error', 'ZUT');
                 }
             });
+        });
+
+        socket.on('disconnect',function(data){
+          logger.info('A user disconnected');
+          tableConnexions[data] = undefined;
         });
     });
 });
