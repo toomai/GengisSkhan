@@ -5,8 +5,7 @@ $(document).ready(function() {
     var userLists = {};
     var currentUserid;
     var currentCommand;
-    /*var index = table_demandes.row('.selected').index();
-    var id = table_demandes.cell(index, 0).data();*/
+
     var tableCourses = $("#tableCourses").DataTable({
         dom: 'Bfrtip',
         buttons: [
@@ -30,12 +29,12 @@ $(document).ready(function() {
                 "className": "dt-center",
                 "bSortable": false,
                 "data": null,
-                "defaultContent": "<img class=\"suppress\" src=\"http://www.fancyicons.com/free-icons/103/office/png/256/delete_256.png\"height=\"32\" width=\"32\">"
+                "defaultContent": '<a class="suppress"><img  src=\"http://www.fancyicons.com/free-icons/103/office/png/256/delete_256.png\"height=\"32\" width=\"32\"></a>'
             }
         ]
     });
 
-/*    $('#tableCourses').on('click', 'tr', function() {
+    $('#tableCourses').on('click', 'tr', function() {
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
         } else {
@@ -43,7 +42,7 @@ $(document).ready(function() {
             $(this).addClass('selected');
         }
         return false;
-    });*/
+    });
 
     io.connect('http://localhost:3000');
     //io.connect('https://gengiskhan.herokuapp.com:3000');
@@ -85,6 +84,10 @@ $(document).ready(function() {
     $('#confirmUser').on('click', function() {
         currentUserid = $('#choice_user').find(":selected").val();
         socket.emit('userId', currentUserid);
+    });
+
+    $('#tableCourses').on('click', 'a.suppress', function() {
+        console.log('coucou');
     });
 
     $('#payement').on('click', function() {
@@ -132,9 +135,7 @@ $(document).ready(function() {
         }
         toastr[code](message);
     }
-    $('.suppress').on('click', function() {
-        console.log('coucou');
-    });
+
 
 
     return;
