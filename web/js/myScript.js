@@ -65,8 +65,8 @@ $(document).ready(function() {
         $('#commande_user').show();
         $('#titreCommandeDate').append(data.date);
         $('#titreCommandeUser').append(currentUserid);
-        $('#totalCom').html('Total: ');
-        $('#totalCom').append(data.price);
+        $('#totalCom').html('Total : ');
+        $('#totalCom').append(data.price+" $");
         var lines = data.lines;
         currentCommand = data;
         tableCourses.clear();
