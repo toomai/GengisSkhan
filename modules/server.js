@@ -71,11 +71,27 @@ function _configureServer(app) {
         res.status(200).send(fichier);
     });
 
+    app.get('/admin', function(req, res) {
+        var fichier = fs.readFileSync("./web/admin.html","UTF8");
+        res.status(200).send(fichier);
+    });
+
 }
 
 function _configureRoutes(app) {
 
     _connect(config.url_db, function(db) {
+
+
+        app.get('/admin/products', function(req, res) {
+            products.list_all_product(db,function(prods) {
+                if (prods) {
+                    res.status(200).send(prods);
+                } else {
+                    res.status(404).send('Error happend');
+                }
+            });
+        });
 
         //CONNEXION
 
@@ -235,8 +251,10 @@ var actualiseSocket = function(idUser, commande){
 }
 
 io.on('connection', function(socket) {
+
     socket.emit('connected');
     logger.info("A user just connected");
+    
     _connect(config.url_db, function(db) {
     users.get_users_with_commands(db, function(data) {
         if (data) {
@@ -245,10 +263,11 @@ io.on('connection', function(socket) {
             socket.emit('error', 'ZUT');
         }
     });
+    
     socket.on('suppressLine', function(data){
       users.get_user(db, data.usr, function(userA){
         commands.remove_line(db, userA, data.commande.command_id, data.lineToSuppress,function(commandMod){
-          actualiseSocket(data.usr, commandeMod)
+          actualiseSocket(data.usr, commandMod)
         });
       });
     });
