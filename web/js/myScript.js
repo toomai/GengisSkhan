@@ -63,9 +63,9 @@ $(document).ready(function() {
     socket.on('currentCommand', function(data) {
         $('#connexion').hide();
         $('#commande_user').show();
-        $('#titreCommandeDate').val("Commande du "+data.date);
-        $('#titreCommandeUser').val("Utilisateur : "+currentUserid);
-        $('#totalCom').val('Total : '+data.price+" $");
+        $('#titreCommandeDate').html("Commande du "+data.date);
+        $('#titreCommandeUser').html("Utilisateur : "+currentUserid);
+        $('#totalCom').html('Total : '+data.price+" $");
         var lines = data.lines;
         currentCommand = data;
         tableCourses.clear();

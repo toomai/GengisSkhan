@@ -30,50 +30,84 @@
     <script src="https://gengiskhan.herokuapp.com/webapp/js/toastr.js"></script>
     <script type="text/javascript" src="https://gengiskhan.herokuapp.com/webapp/js/myScript.js"></script>
 
+    <!--external css-->
+    <link href="https://gengiskhan.herokuapp.com/webapp/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://gengiskhan.herokuapp.com/webapp/assets/css/zabuto_calendar.css">
+    <link rel="stylesheet" type="text/css" href="https://gengiskhan.herokuapp.com/webapp/assets/js/gritter/css/jquery.gritter.css" />
+    <link rel="stylesheet" type="text/css" href="https://gengiskhan.herokuapp.com/webapp/assets/lineicons/style.css">
+
+    <!-- Custom styles for this template -->
+    <link href="https://gengiskhan.herokuapp.com/webapp/assets/css/style.css" rel="stylesheet">
+    <link href="https://gengiskhan.herokuapp.com/webapp/assets/css/style-responsive.css" rel="stylesheet">
+
+    <script src="https://gengiskhan.herokuapp.com/webapp/sassets/js/chart-master/Chart.js"></script>
+
+
 </head>
 
 <body>
-    <title>GenghisSkhan</title>
-    <div class="container">
-        <div class="starter-template">
 
-            <div id="connexion">
-                <h1>Choix</h1>
-                <select id="choice_user">
-                </select>
-                <p>
-                    </br>
-                    <input type="submit" id="confirmUser" value="Confirmer"/>
-                </p>
+    <section id="container">
+
+        <header class="header black-bg">
+            <div class="sidebar-toggle-box">
+                <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
             </div>
-            
-            <div id="commande_user">
-                <h1 id="titreCommandeDate">Commande du </h1>
-                <h3 id="titreCommandeUser">Utilisateur : </h3>
-                <table id="tableCourses" class="display table table-striped table-bordered" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Numéro</th>
-                            <th>Produit</th>
-                            <th>Image</th>
-                            <th>code</th>
-                            <th>description</th>
-                            <th>Prix unitaire</th>
-                            <th>Quantité</th>
-                            <th>Total ligne</th>
-                            <th>Suppression</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <div>
-                    <h3 id="totalCom">Total :</h3>
+            <a href="https://gengiskhan.herokuapp.com/" class="logo"><b>GENGIS SKAN</b></a>
+            <div class="nav notify-row" id="top_menu">
+                <ul class="nav top-menu">
+                </ul>
+            </div>
+            <div class="top-menu">
+                <ul class="nav pull-right top-menu">
+                    <li><a class="logout" href="https://gengiskhan.herokuapp.com/admin">Admin</a></li>
+                </ul>
+            </div>
+        </header>
+
+        <br/><br/><br/><br/>
+
+        <div id="connexion">
+            <div class="row mt">
+                <div class="col-lg-12">
+                    <div class="form-panel">
+                        <h4 class="mb"><i class="fa fa-angle-right"></i> Choix de l'utilisateur</h4>
+                        <select class="form-control" id="choice_user">
+						</select>
+                        <br>
+                        <input class="btn btn-success" type="submit" id="confirmUser" value="Confirmer" />
+                    </div>
                 </div>
-                <button type="button" id="payement">Payer</button>
             </div>
         </div>
-    </div>
+
+        <div id="commande_user">
+            <h1 id="titreCommandeDate">Commande du </h1>
+            <h3 id="titreCommandeUser">Utilisateur : </h3>
+            <table id="tableCourses" class="display table table-striped table-bordered" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Numéro</th>
+                        <th>Produit</th>
+                        <th>Image</th>
+                        <th>code</th>
+                        <th>description</th>
+                        <th>Prix unitaire</th>
+                        <th>Quantité</th>
+                        <th>Total ligne</th>
+                        <th>Suppression</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div>
+                <h3 id="totalCom">Total :</h3>
+            </div>
+            <button class="btn btn-success" type="button" id="payement">Payer</button>
+        </div>
+    </section>
+
 </body>
 
 </html>

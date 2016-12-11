@@ -10,7 +10,7 @@
 
     <!--CSS-->
 
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" >
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="http://localhost:3000/webapp/dist/css/toastr.css" rel="stylesheet" />
     <link href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -19,8 +19,8 @@
 
     <!--JS-->
 
-    <script src="https://code.jquery.com/jquery-3.1.1.js" ></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.3/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
@@ -34,9 +34,28 @@
 </head>
 
 <body>
-    <title>GenghisSkhan Admin</title>
-    <div class="container">
-        <div class="starter-template">
+
+    <section id="container">
+
+        <header class="header black-bg">
+            <div class="sidebar-toggle-box">
+                <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+            </div>
+            <a href="https://gengiskhan.herokuapp.com/admin" class="logo"><b>GENGIS SKAN ADMIN</b></a>
+            <div class="nav notify-row" id="top_menu">
+                <ul class="nav top-menu">
+                </ul>
+            </div>
+            <div class="top-menu">
+                <ul class="nav pull-right top-menu">
+                    <li><a class="logout" href="https://gengiskhan.herokuapp.com/">Caissier</a></li>
+                </ul>
+            </div>
+        </header>
+
+        <br/><br/><br/><br/>
+
+        <div id="connexion">
             <div id="adminProduct">
                 <table id="tableProducts" class="display table table-striped table-bordered" width="100%" cellspacing="0">
                     <thead>
@@ -52,8 +71,8 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-    </div>
+    </section>
+
 </body>
 
 </html>
