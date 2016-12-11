@@ -63,9 +63,9 @@ $(document).ready(function() {
     socket.on('currentCommand', function(data) {
         $('#connexion').hide();
         $('#commande_user').show();
-        $('#titreCommandeDate').html("Commande du "+data.date);
-        $('#titreCommandeUser').html("Utilisateur : "+currentUserid);
-        $('#totalCom').html('Total : '+data.price+" $");
+        $('#titreCommandeDate').html("Commande du " + data.date);
+        $('#titreCommandeUser').html("Utilisateur : " + currentUserid);
+        $('#totalCom').html('Total : ' + data.price + " $");
         var lines = data.lines;
         currentCommand = data;
         tableCourses.clear();
@@ -86,21 +86,21 @@ $(document).ready(function() {
     });
 
     $('#tableCourses').on('click', 'a.suppress', function(e) {
-      //var data = tableCourses.row('.selected');
-      var data = $(this).closest('tr');
-      var da = Array();
-      var i = 0;
-      data.children('td').each(function(){
-        da[i] = $(this).text();
-        i++;
-      });
-      var commandToSuppr = {
-        usr: currentUserid,
-        commande: currentCommand,
-        lineToSuppress : (da[0] - 1)
-      };
+        //var data = tableCourses.row('.selected');
+        var data = $(this).closest('tr');
+        var da = Array();
+        var i = 0;
+        data.children('td').each(function() {
+            da[i] = $(this).text();
+            i++;
+        });
+        var commandToSuppr = {
+            usr: currentUserid,
+            commande: currentCommand,
+            lineToSuppress: (da[0] - 1)
+        };
 
-      socket.emit('suppressLine', commandToSuppr);
+        socket.emit('suppressLine', commandToSuppr);
     });
 
     $('#payement').on('click', function() {

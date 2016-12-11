@@ -1,11 +1,11 @@
 var winston = require("winston");
 
-var info = function info(message){
-    var logger = module.exports = new (winston.Logger)({
+var info = function info(message) {
+    var logger = module.exports = new(winston.Logger)({
         transports: [
-            new (winston.transports.Console)({
-            colorize: true,
-            timestamp: true
+            new(winston.transports.Console)({
+                colorize: true,
+                timestamp: true
             })
         ]
     });

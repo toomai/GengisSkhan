@@ -67,12 +67,12 @@ function _configureServer(app) {
     });
 
     app.get('/', function(req, res) {
-        var fichier = fs.readFileSync("./web/index.html","UTF8");
+        var fichier = fs.readFileSync("./web/index.html", "UTF8");
         res.status(200).send(fichier);
     });
 
     app.get('/admin', function(req, res) {
-        var fichier = fs.readFileSync("./web/admin.html","UTF8");
+        var fichier = fs.readFileSync("./web/admin.html", "UTF8");
         res.status(200).send(fichier);
     });
 
@@ -84,7 +84,7 @@ function _configureRoutes(app) {
 
 
         app.get('/admin/products', function(req, res) {
-            products.list_all_product(db,function(prods) {
+            products.list_all_product(db, function(prods) {
                 if (prods) {
                     res.status(200).send(prods);
                 } else {
@@ -242,36 +242,35 @@ function _configureRoutes(app) {
 
 
 
-var actualiseSocket = function(idUser, commande){
-  console.log(tableConnexions[idUser]);
-  if(tableConnexions[idUser]){
-    tableConnexions[idUser].emit('currentCommand', commande);
-  }else{
-  }
+var actualiseSocket = function(idUser, commande) {
+    console.log(tableConnexions[idUser]);
+    if (tableConnexions[idUser]) {
+        tableConnexions[idUser].emit('currentCommand', commande);
+    } else {}
 }
 
 io.on('connection', function(socket) {
 
     socket.emit('connected');
     logger.info("A user just connected");
-    
+
     _connect(config.url_db, function(db) {
-    users.get_users_with_commands(db, function(data) {
-        if (data) {
-            socket.emit('listeUser', data);
-        } else {
-            socket.emit('error', 'ZUT');
-        }
-    });
-    
-    socket.on('suppressLine', function(data){
-      users.get_user(db, data.usr, function(userA){
-        commands.remove_line(db, userA, data.commande.command_id, data.lineToSuppress,function(commandMod){
-          actualiseSocket(data.usr, commandMod)
+        users.get_users_with_commands(db, function(data) {
+            if (data) {
+                socket.emit('listeUser', data);
+            } else {
+                socket.emit('error', 'ZUT');
+            }
         });
-      });
-    });
-        socket.on('payement', function (data) {
+
+        socket.on('suppressLine', function(data) {
+            users.get_user(db, data.usr, function(userA) {
+                commands.remove_line(db, userA, data.commande.command_id, data.lineToSuppress, function(commandMod) {
+                    actualiseSocket(data.usr, commandMod)
+                });
+            });
+        });
+        socket.on('payement', function(data) {
             users.get_user(db, data.usr, function(userToPay) {
                 commands.pay_command(db, userToPay, data.commande.command_id, function(comm) {
                     if (comm) {
@@ -298,9 +297,9 @@ io.on('connection', function(socket) {
             });
         });
 
-        socket.on('disconnect',function(data){
-          logger.info('A user disconnected');
-          tableConnexions[data] = undefined;
+        socket.on('disconnect', function(data) {
+            logger.info('A user disconnected');
+            tableConnexions[data] = undefined;
         });
     });
 });

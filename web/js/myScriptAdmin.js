@@ -1,6 +1,6 @@
 $(function() {
 
- var tableProducts = $("#tableProducts").DataTable({
+    var tableProducts = $("#tableProducts").DataTable({
         dom: 'Bfrtip',
         buttons: [
             'copyHtml5',
@@ -62,6 +62,6 @@ $(function() {
         }
         toastr[code](message);
     }
-    
+
 
 });
