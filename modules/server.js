@@ -228,6 +228,54 @@ function _configureRoutes(app) {
             });
         });
 
+        //Modify an existing product
+        app.post('/product/modify', function(req, res) {
+            var product = {};
+            product.product_id = req.body.product;
+            product.name = req.body.name;
+            product.price = req.body.price;
+            product.description = req.body.description;
+            product.image = req.body.image;
+
+           
+           products.modify_product(db, product, function(result) {
+                res.status(200).send(result);
+           });
+        });
+
+        //Add a new product
+        app.post('/product/add', function(req, res) {
+            var product = {};
+            product.product_id = req.body.product;
+            product.name = req.body.name;
+            product.price = req.body.price;
+            product.description = req.body.description;
+            product.image = req.body.image;
+
+           
+           products.add_product(db, product, function(result) {
+               if (result) {
+                   res.status(200).send(result);
+               } else {
+                   res.status(404).send('Error happend');
+               }
+           });
+        });
+
+        //Remove an existing product by its ID
+        app.post('/product/delete', function(req, res) {
+            var product = {};
+            product.product_id = req.body.product;
+
+           products.delete_product(db, product, function(result) {
+               if (result) {
+                   res.status(200).send(result);
+               } else {
+                   res.status(404).send('Error happend');
+               }
+           });
+        });
+
         //NO ROUTE FOUND
 
         app.use('*', function(req, res, next) {
