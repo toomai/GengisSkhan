@@ -98,7 +98,7 @@ var remove_line = function(db, user, id_command, id_line, callback) {
     get_command(db, user.user_id, id_command, function(command) {
         var prix = command.price;
         prix -= command.lines[id_line].price * command.lines[id_line].quantity;
-        command.price = prix;
+        user.commands[id_command].price = prix;
 
         if (command.lines.length === 1) {
             var lines = [];
