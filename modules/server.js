@@ -103,7 +103,7 @@ function _configureRoutes(app) {
             }*/
             logger.info(req.params.product);
             
-                    products.add_product(db,product, function(prods) {
+                    products.add_product(db,req.params.product, function(prods) {
                         if (prods) {
                             res.status(200).send(prods);
                         } else {
