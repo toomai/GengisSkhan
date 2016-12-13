@@ -108,7 +108,7 @@ var remove_line = function(db, user, id_command, id_line, callback) {
             var indice, lines = [];
             for (indice = 0; indice < command.lines.length - 1; indice++) {
                 lines[indice] = command.lines[indice];
-                console.log(lines[indice]);
+              //  console.log(lines[indice]);
             }
             user.commands[id_command].lines = lines;
         }
@@ -122,14 +122,24 @@ var remove_line = function(db, user, id_command, id_line, callback) {
 //changer qty d'une ligne + ajuster solde
 var change_quantity = function(db, user, id_command, id_line, quantity, callback) {
     get_command(db, user.user_id, id_command, function(command) {
+
         var prix = command.price;
-        prix -= command.lines[id_line].price * command.lines[id_line].quantity;
-        prix += command.lines[id_line].price * quantity;
+        var i = 0;
+        for(; i < command.lines.length ; i++){
+          if(command.lines[i].line_id === id_line){
+            prix -= command.lines[i].price * command.lines[i].quantity;
+            prix += command.lines[i].price * quantity;
+            break;
+          }
+        }
+
         command.price = prix;
-        command.lines[id_line].quantity = quantity;
+        command.lines[i].quantity = quantity;
         user.commands[id_command] = command;
         users.update_user_command(db, user, function(com) { //TO CHECK
-            callback(command);
+          get_last_command(db, user.user_id,function(lastCom){
+            callback(lastCom);
+          });
         });
     });
 }
