@@ -29,7 +29,7 @@ $(function() {
         {
             "data": null,
             "defaultContent": "<a class=\"remove btn btn-danger\">Supprimer</a> "
-        },, {
+        }, {
             "data": null,
             "defaultContent": "<a class=\"update btn btn-primary \">Modifier</a>"
         }        ]
