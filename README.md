@@ -80,7 +80,7 @@ In order to scan products, you need to instal the apk "app-debug.apk" (only avai
             price: price to change 
         Changes the price of a product in an order and returns it in JSON.
     - /product/modify
-        POST method
+        GET method
         Parameters:
             product: product ID
             name: product name
@@ -89,7 +89,7 @@ In order to scan products, you need to instal the apk "app-debug.apk" (only avai
             image: image for the product
         Modifies a product if the product ID exists in database.
     - /product/add
-        POST method
+        GET method
         Parameters:
             product: product ID
             name: product name
@@ -98,7 +98,7 @@ In order to scan products, you need to instal the apk "app-debug.apk" (only avai
             image: image for the product
         Add a new product to the database.
     - /product/delete
-        POST method
+        GET method
         Parameters:
             product: product ID
         Delete a product if the product ID exists in database.
