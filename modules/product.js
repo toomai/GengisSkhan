@@ -57,6 +57,9 @@ var update_product = function(db, product, callback) {
             'description': product.description,
         }
     }, function(err, result) {
+        logger.info(err);
+        logger.info(result);
+        assert.equal(err, null);
         callback(result);
     });
 }
