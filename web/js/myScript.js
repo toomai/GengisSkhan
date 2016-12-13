@@ -30,7 +30,12 @@ $(document).ready(function() {
                 "bSortable": false,
                 "data": null,
                 "defaultContent": '<a class="suppress"><img  src=\"http://www.fancyicons.com/free-icons/103/office/png/256/delete_256.png\"height=\"32\" width=\"32\"></a>'
-            }
+            },
+            {"className": "dt-center",
+            "bSortable": false,
+            "data": null,
+            "defaultContent": '<input class="modify" type="submit" value="Modifier"/>'
+        }
         ]
     });
 
@@ -44,8 +49,8 @@ $(document).ready(function() {
         return false;
     });
 
-    io.connect('http://localhost:3000');
-    //io.connect('https://gengiskhan.herokuapp.com:3000');
+    //io.connect('http://localhost:3000');
+    io.connect('https://gengiskhan.herokuapp.com:3000');
     socket.on("connected", function() {
         console.log('socket connected');
     });
@@ -61,6 +66,7 @@ $(document).ready(function() {
         afficherNotif('La commande a déjà été payée', 'error');
     });
     socket.on('currentCommand', function(data) {
+      console.log(data);
         $('#connexion').hide();
         $('#commande_user').show();
         $('#titreCommandeDate').html("Commande du " + data.date);
@@ -68,11 +74,13 @@ $(document).ready(function() {
         $('#totalCom').html('Total : ' + data.price + " $");
         var lines = data.lines;
         currentCommand = data;
+        var inputQtyStart = '<input type="number" class="modifQty" value="';
+        var inputQtyEnd = '"/>'
         tableCourses.clear();
         for (var prod in lines) {
             var line = lines[prod];
             tableCourses.row.add([line.line_id + 1, line.name, '<img src="https://gengiskhan.herokuapp.com/images/' + line.image + '" alt="img" height="42" width="42" >',
-                line.product_id, line.description, line.price, line.quantity,
+                line.product_id, line.description, line.price,inputQtyStart + line.quantity + inputQtyEnd,
                 (line.quantity * line.price), null
             ]).draw(false);
         }
@@ -101,6 +109,27 @@ $(document).ready(function() {
         };
 
         socket.emit('suppressLine', commandToSuppr);
+    });
+
+    $('#tableCourses').on('click', 'input.modify', function(e){
+      var data = $(this).closest('tr');
+      var da = Array();
+      var i =0;
+      data.children('td').each(function(){
+        if($(this).children('input').attr('class') === 'modifQty'){
+          da[i]=$(this).children('input').val();
+        }else{
+        da[i] = $(this).text();
+        }
+      i++;
+    });
+    da[0]-=1;
+    var commandToModif={
+      usr:currentUserid,
+      commande:currentCommand,
+      line: da
+    };
+    socket.emit('modify', commandToModif);
     });
 
     $('#payement').on('click', function() {

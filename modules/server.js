@@ -288,7 +288,7 @@ function _configureRoutes(app) {
             product.description = req.body.description;
             product.image = req.body.image;
 
-           
+
            products.modify_product(db, product, function(result) {
                 res.status(200).send(result);
            });
@@ -303,7 +303,7 @@ function _configureRoutes(app) {
             product.description = req.body.description;
             product.image = req.body.image;
 
-           
+
            products.add_product(db, product, function(result) {
                if (result) {
                    res.status(200).send(result);
@@ -342,10 +342,11 @@ function _configureRoutes(app) {
 
 
 var actualiseSocket = function(idUser, commande) {
-    console.log(tableConnexions[idUser]);
     if (tableConnexions[idUser]) {
         tableConnexions[idUser].emit('currentCommand', commande);
-    } else {}
+    } else {
+
+    }
 }
 
 io.on('connection', function(socket) {
@@ -364,11 +365,24 @@ io.on('connection', function(socket) {
 
         socket.on('suppressLine', function(data) {
             users.get_user(db, data.usr, function(userA) {
-                commands.remove_line(db, userA, data.commande.command_id, data.lineToSuppress, function(commandMod) {
-                    actualiseSocket(data.usr, commandMod)
+                commands.remove_line(db, userA, data.commande.command_id, data.lineToSuppress, function(user) {
+                    actualiseSocket(data.usr, user.commands[user.commands.length-1]);
                 });
             });
         });
+
+        socket.on('modify', function(data) {
+            users.get_user(db, data.usr, function(userA) {
+                commands.change_quantity(db, userA, data.commande.command_id, data.line[0], data.line[6], function(commande) {
+                  /*  commandMod.change_price(db, userA, commandMod.command_id, data.line[0], data.line[7], function(newCom) {
+                        actualiseSocket(data.usr, newCom);
+                    });*/
+                    actualiseSocket(data.usr,commande);
+                });
+            });
+        });
+
+
         socket.on('payement', function(data) {
             users.get_user(db, data.usr, function(userToPay) {
                 commands.pay_command(db, userToPay, data.commande.command_id, function(comm) {
