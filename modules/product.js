@@ -55,7 +55,6 @@ var update_product = function(db, product, callback) {
             'name': product.name,
             'price': product.price,
             'description': product.description,
-            'image': product.image
         }
     }, function(err, result) {
         callback(result);
