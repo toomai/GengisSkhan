@@ -102,11 +102,7 @@ function _configureRoutes(app) {
              'image' : 'essui.jpg'
             }
                     products.add_product(db,product, function(prods) {
-                        if (prods) {
                             res.status(200).send(prods);
-                        } else {
-                            res.status(404).send('Error happend');
-                        }
                     });
                 });
 
@@ -118,11 +114,7 @@ function _configureRoutes(app) {
              'price' : req.params.price
             }
                     products.modify_product(db,product, function(prods) {
-                        if (prods) {
                             res.status(200).send(prods);
-                        } else {
-                            res.status(404).send('Error happend');
-                        }
                     });
                 });
 
@@ -132,11 +124,7 @@ function _configureRoutes(app) {
             }
             logger.info(req.params.product);
                     products.delete_product(db,product, function(prods) {
-                        if (prods) {
                             res.status(200).send(prods);
-                        } else {
-                            res.status(404).send('Error happend');
-                        }
                     });
                 });
 
