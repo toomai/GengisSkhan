@@ -94,13 +94,14 @@ function _configureRoutes(app) {
         });
 
         app.get('/admin/add', function(req, res) {
+            logger.info(req.params);
             var product = {
              'product_id' : req.params.product_id,
              'name' : req.params.name,
              'description' : req.params.description,
              'price' : req.params.price
             }
-            logger.info(req.product);
+            logger.info(product);
             
                     products.add_product(db,product, function(prods) {
                         if (prods) {

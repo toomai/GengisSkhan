@@ -138,7 +138,7 @@ $(function() {
             type: 'GET',
             url: 'https://gengiskhan.herokuapp.com/admin/add',
             data: {
-                'product_id' : product.product_id,
+            'product_id' : product.product_id,
              'name' : product.name,
              'description' : product.description,
              'price' :product.price
