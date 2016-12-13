@@ -93,17 +93,14 @@ function _configureRoutes(app) {
             });
         });
 
-        app.get('/admin/add', function(req, res) {
-            logger.info('body '+JSON.parse(req.body));
-            logger.info('params '+JSON.parse(req.params));
+        app.get('/admin/add/:product_id/:name/:description/:price', function(req, res) {
             var product = {
              'product_id' : req.params.product_id,
              'name' : req.params.name,
              'description' : req.params.description,
-             'price' : req.params.price
+             'price' : req.params.price,
+             'image' : 'essui.jpg'
             }
-            logger.info('product '+JSON.parse(product));
-            
                     products.add_product(db,product, function(prods) {
                         if (prods) {
                             res.status(200).send(prods);
@@ -113,14 +110,13 @@ function _configureRoutes(app) {
                     });
                 });
 
-        app.get('/admin/update', function(req, res) {
-            logger.info(req.params.product);
-            /*var product = {
+        app.get('/admin/update/:product_id/:name/:description/:price', function(req, res) {
+            var product = {
              'product_id' : req.params.product_id,
              'name' : req.params.name,
              'description' : req.params.description,
              'price' : req.params.price
-            }*/
+            }
                     products.modify_product(db,product, function(prods) {
                         if (prods) {
                             res.status(200).send(prods);
@@ -130,10 +126,10 @@ function _configureRoutes(app) {
                     });
                 });
 
-        app.get('/admin/remove', function(req, res) {
-            /*var product = {
+        app.get('/admin/remove/:product_id', function(req, res) {
+            var product = {
              'product_id' : req.params.product_id
-            }*/
+            }
             logger.info(req.params.product);
                     products.delete_product(db,product, function(prods) {
                         if (prods) {
