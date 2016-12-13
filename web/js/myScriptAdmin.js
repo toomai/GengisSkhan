@@ -2,6 +2,8 @@ $(function() {
 
     ////////////////////////////////////////////////////////// INITIALISATION
 
+    var product = null;
+
     var tableProducts = $("#tableProducts").DataTable({
         responsive: true,
         "language": {
@@ -25,14 +27,14 @@ $(function() {
             null,
             null,
             null,
-            null,
-        {
-            "data": null,
-            "defaultContent": "<a class=\"remove btn btn-danger\">Supprimer</a> "
-        }, {
-            "data": null,
-            "defaultContent": "<a class=\"update btn btn-primary \">Modifier</a>"
-        }        ]
+            null, {
+                "data": null,
+                "defaultContent": "<a class=\"remove btn btn-danger\" data-toggle=\"modal\" data-target=\"#modal-remove\">Supprimer</a> "
+            }, {
+                "data": null,
+                "defaultContent": "<a class=\"update btn btn-primary \" data-toggle=\"modal\" data-target=\"#modal-modify\">Modifier</a>"
+            }
+        ]
     });
 
 
@@ -46,12 +48,14 @@ $(function() {
             da[i] = $(this).text();
             i++;
         });
-        var product = {
-            'product_id' : da[0]
+        product = {
+            'product_id': da[0]
         };
-        suprimerProduits(product);
     });
 
+    $('#remove-button').click(function() {
+        suprimerProduits();
+    });
 
     $('#tableProducts').on('click', 'a.update', function(e) {
         var data = $(this).closest('tr');
@@ -61,21 +65,33 @@ $(function() {
             da[i] = $(this).text();
             i++;
         });
-        var product = {
-            'product_id' : da[0],
-            'name' : da[1],
-            'description' : da[3],
-            'price' : da[2]
+        product = {
+            'product_id': da[0],
+            'name': da[1],
+            'description': da[3],
+            'price': da[2]
         };
-        modifierProduits(product);
+        jsonToForm($('#formupdate'), product);
+    });
+
+    $('#modify-button').click(function() {
+        product = formToJson($('#formupdate'));
+        modifierProduits();
+    });
+
+
+    $('#addpro').click(function() {
+    });
+
+    $('#add-button').click(function() {
+        product = formToJson($('#formadd'));
+        ajouterProduits();
     });
 
     /////////////////////////////////////////////////////////////////////////////////// CALL
 
-    afficherNotif('Bienvenue dans le mode de gestion !','success');
+    afficherNotif('Bienvenue dans le mode de gestion !', 'success');
     chargerProduits();
-    
-
 
     /////////////////////////////////////////////////////////////////////////////////// FUNCTION
 
@@ -100,56 +116,84 @@ $(function() {
         toastr[code](message);
     }
 
-    function chargerProduits(){
+    function chargerProduits() {
         $.ajax({
-                type: 'GET',
-                url: 'https://gengiskhan.herokuapp.com/admin/products',
-                success: function(reponse) {
-                    var ob = reponse;
-                    tableProducts.clear().draw();
-                    for (var k in ob) {
-                        var line = ob[k];
-                        tableProducts.row.add([line.product_id, line.name, line.price, line.description, '<img src="https://gengiskhan.herokuapp.com/images/' + line.image + '" alt="img" height="42" width="42" >',null,null]).draw(false);
-                    }
-                    afficherNotif('Voici les produits !','success');
+            type: 'GET',
+            url: 'https://gengiskhan.herokuapp.com/admin/products',
+            success: function(reponse) {
+                var ob = reponse;
+                tableProducts.clear().draw();
+                for (var k in ob) {
+                    var line = ob[k];
+                    tableProducts.row.add([line.product_id, line.name, line.price, line.description, '<img src="https://gengiskhan.herokuapp.com/images/' + line.image + '" alt="img" height="42" width="42" >', null, null]).draw(false);
                 }
-            });
-    }
-
-
-    function ajouterProduits(product){
-         $.ajax({
-                type: 'GET',
-                url: 'https://gengiskhan.herokuapp.com/admin/add',
-                data : {'product': product},
-                success: function(reponse) {
-                    afficherNotif('Votre produit est ajouté !','success');
-                    chargerProduits();
-                }
+                afficherNotif('Voici les produits !', 'success');
+            }
         });
     }
 
-    function suprimerProduits(product){
+
+    function ajouterProduits() {
         $.ajax({
-                type: 'GET',
-                url: 'https://gengiskhan.herokuapp.com/admin/add',
-                data : {'product': product},
-                success: function(reponse) {
-                    afficherNotif('Votre produit a été supprimé !','success');
-                    chargerProduits();
-                }
+            type: 'GET',
+            url: 'https://gengiskhan.herokuapp.com/admin/add',
+            data: {
+                'product': product
+            },
+            success: function(reponse) {
+                afficherNotif('Votre produit est ajouté !', 'success');
+                chargerProduits();
+            }
         });
     }
 
-    function modifierProduits(product){
+    function suprimerProduits() {
         $.ajax({
-                type: 'GET',
-                url: 'https://gengiskhan.herokuapp.com/admin/add',
-                data : {'product': product},
-                success: function(reponse) {
-                    afficherNotif('Votre produit est modifié !','success');
-                    chargerProduits();
-                }
+            type: 'GET',
+            url: 'https://gengiskhan.herokuapp.com/admin/add',
+            data: {
+                'product': product
+            },
+            success: function(reponse) {
+                afficherNotif('Votre produit a été supprimé !', 'success');
+                chargerProduits();
+            }
+        });
+    }
+
+    function modifierProduits() {
+        $.ajax({
+            type: 'GET',
+            url: 'https://gengiskhan.herokuapp.com/admin/add',
+            data: {
+                'product': product
+            },
+            success: function(reponse) {
+                afficherNotif('Votre produit est modifié !', 'success');
+                chargerProduits();
+            }
+        });
+    }
+
+    function formToJson(src) {
+        var o = {};
+        src.find('input').each(function() {
+            o[$(this).context.name] = $(this).val();
+        });
+        return o;
+    }
+
+    function jsonToForm(src, o) {
+        clear(src);
+        src.find('input').each(function() {
+            $(this).val(o[$(this).context.name]);
+        });
+    }
+
+
+    function clear(src) {
+        src.find('input').each(function() {
+            $(this).val("");
         });
     }
 

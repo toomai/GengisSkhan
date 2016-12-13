@@ -35,12 +35,122 @@
     <link href="https://gengiskhan.herokuapp.com/webapp/assets/css/style-responsive.css" rel="stylesheet">
 
     <script src="https://gengiskhan.herokuapp.com/webapp/sassets/js/chart-master/Chart.js"></script>
-    
+
 </head>
 
 <body>
 
     <section id="container">
+
+
+        <div class="modal fade" id="modal-add" tabindex="-1" role="dialog" aria-labelledby="myModalLabeladd" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabeladd">Ajouter un produit</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <form class="form-horizontal style-form" id="formadd">
+                            <div class="form-group">
+                                <label class="col-sm-2 col-sm-2 control-label">Code barre</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" name="product_id" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 col-sm-2 control-label">Nom</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" name="name" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 col-sm-2 control-label">Description</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" name="description" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 col-sm-2 control-label">Prix</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" name="price" type="text">
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                        <button id="add-button" type="button" class="btn btn-primary">Ajouter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="modal-modify" tabindex="-1" role="dialog" aria-labelledby="myModalLabelup" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabelup">Modifier un produit</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <form class="form-horizontal style-form" id="formupdate">
+                            <div class="form-group">
+                                <label class="col-sm-2 col-sm-2 control-label">Code barre</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" name="product_id" type="text" disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 col-sm-2 control-label">Nom</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" name="name" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 col-sm-2 control-label">Description</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" name="description" type="text">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 col-sm-2 control-label">Prix</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" name="price" type="text">
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                        <button id="modify-button" type="button" class="btn btn-primary">Modifier</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal-remove" tabindex="-1" role="dialog" aria-labelledby="myModalLabelremove" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabelremove">Supprimer un produit</h4>
+                    </div>
+                    <div class="modal-body">
+                        Vous êtes vraiment sûr de vouloir suprimer ce produit ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                        <button id="remove-button" type="button" class="btn btn-primary">Oui</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <header class="header black-bg">
             <div class="sidebar-toggle-box">
@@ -54,6 +164,7 @@
             <div class="top-menu">
                 <ul class="nav pull-right top-menu">
                     <li><a class="logout" href="https://gengiskhan.herokuapp.com/">Caissier</a></li>
+                    <li><a id="addpro" data-toggle="modal" data-target="#modal-add" class="logout" href="#">Ajouter</a></li>
                 </ul>
             </div>
         </header>
