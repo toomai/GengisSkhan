@@ -178,7 +178,7 @@ $(function() {
     function formToJson(src) {
         var o = {};
         src.find('input').each(function() {
-            o[$(this).context.name] = $(this).val();
+            o[$(this).attr('name')] = $(this).val();
         });
         return o;
     }
@@ -186,7 +186,7 @@ $(function() {
     function jsonToForm(src, o) {
         clear(src);
         src.find('input').each(function() {
-            $(this).val(o[$(this).context.name]);
+            $(this).val(o[$(this).attr('name')]);
         });
     }
 
