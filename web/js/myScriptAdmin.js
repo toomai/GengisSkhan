@@ -123,7 +123,6 @@ $(function() {
                     var line = ob[k];
                     tableProducts.row.add([line.product_id, line.name, line.price, line.description, '<img src="https://gengiskhan.herokuapp.com/images/' + line.image + '" alt="img" height="42" width="42" >', null, null]).draw(false);
                 }
-                afficherNotif('Voici les produits !', 'success');
             }
         });
     }
