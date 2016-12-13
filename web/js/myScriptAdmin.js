@@ -79,10 +79,6 @@ $(function() {
         modifierProduits();
     });
 
-
-    $('#addpro').click(function() {
-    });
-
     $('#add-button').click(function() {
         product = formToJson($('#formadd'));
         ajouterProduits();
@@ -136,8 +132,9 @@ $(function() {
     function ajouterProduits() {
         $.ajax({
             type: 'GET',
-            url: 'https://gengiskhan.herokuapp.com/admin/add',
+            url: 'https://gengiskhan.herokuapp.com/admin/add/'+product.product_id+'/'+product.name+'/'+product.description+'/'+product.price,
             success: function(reponse) {
+                $('#modal-add').modal('hide');
                 afficherNotif('Votre produit est ajouté !', 'success');
                 chargerProduits();
             }
@@ -147,8 +144,9 @@ $(function() {
     function suprimerProduits() {
         $.ajax({
             type: 'GET',
-            url: 'https://gengiskhan.herokuapp.com/admin/remove',
+            url: 'https://gengiskhan.herokuapp.com/admin/remove/'+product.product_id,
             success: function(reponse) {
+                $('#modal-remove').modal('hide');
                 afficherNotif('Votre produit a été supprimé !', 'success');
                 chargerProduits();
             }
