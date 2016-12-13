@@ -94,15 +94,15 @@ function _configureRoutes(app) {
         });
 
         app.get('/admin/add', function(req, res) {
-            logger.info('body '+req.body);
-            logger.info('params '+req.params);
+            logger.info('body '+JSON.parse(req.body));
+            logger.info('params '+JSON.parse(req.params));
             var product = {
              'product_id' : req.params.product_id,
              'name' : req.params.name,
              'description' : req.params.description,
              'price' : req.params.price
             }
-            logger.info('product '+product);
+            logger.info('product '+JSON.parse(product));
             
                     products.add_product(db,product, function(prods) {
                         if (prods) {
