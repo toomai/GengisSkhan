@@ -1,5 +1,11 @@
+#Authors:
+COTTON Pierric
+MENDES Christian
+MOUNIR Hamza
+STEVENS Loïc
+
 # GengisSkhan
-Scan products barcode into a command and get the all command into a web interface. 
+Scan products barcode into a command and get the all command into a web interface.
 
 #Installation
 In order to scan products, you need to instal the apk "app-debug.apk" (only available for Android)
@@ -33,7 +39,7 @@ In order to scan products, you need to instal the apk "app-debug.apk" (only avai
         Return a JSON containing all the products available in database (those products are ficticious, created for our tests)
     - /connect/mobile
         POST method. Take a "login" as parameter (the login is the barcode associated to user).
-        Connects the user and return a JSON containing informations about the user if this one exists. 
+        Connects the user and return a JSON containing informations about the user if this one exists.
     - /command/new/:login
         GET method. ":login" correspond to the user to who the order will be associated
         Creates a new order for the user ":login" and return this order if it has been created.
@@ -69,15 +75,15 @@ In order to scan products, you need to instal the apk "app-debug.apk" (only avai
             login: user barcode
             command: command ID
             line: line ID
-            quantity: quantity to change 
-        Changes the quantity of a product in an order and returns the order in JSON. 
+            quantity: quantity to change
+        Changes the quantity of a product in an order and returns the order in JSON.
     - /command/modify/price
         POST method
         Parameters:
             login: user barcode
             command: command ID
             line: line ID
-            price: price to change 
+            price: price to change
         Changes the price of a product in an order and returns it in JSON.
     - /product/modify
         GET method
@@ -104,5 +110,3 @@ In order to scan products, you need to instal the apk "app-debug.apk" (only avai
         Delete a product if the product ID exists in database.
     - *
         If no route are found, a page with "No route" is showed.
-
-
