@@ -351,6 +351,7 @@ io.on('connection', function(socket) {
         socket.on('suppressLine', function(data) {
             users.get_user(db, data.usr, function(userA) {
                 commands.remove_line(db, userA, data.commande.command_id, data.lineToSuppress, function(user) {
+                  console.log(data.usr, user.commands[user.commands.length -1]);
                     actualiseSocket(data.usr, user.commands[user.commands.length-1]);
                 });
             });

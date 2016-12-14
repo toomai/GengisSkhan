@@ -97,14 +97,19 @@ var print_command = function(db,user,id_command,callback){
 var remove_line = function(db, user, id_command, id_line, callback) {
     get_command(db, user.user_id, id_command, function(command) {
         var prix = command.price;
-        prix -= command.lines[id_line].price * command.lines[id_line].quantity;
-        user.commands[id_command].price = prix;
+        var i = 0;
+        for(;i < command.lines.length; i++){
+          if(command.lines[i].line_id === id_line)
+            break;
+        }
+        prix -= command.lines[i].price * command.lines[i].quantity;
+        user.commands[i].price = prix;
 
         if (command.lines.length === 1) {
             var lines = [];
             user.commands[id_command].lines = lines;
         } else {
-            command.lines[id_line] = command.lines[command.lines.length - 1];
+            command.lines[i] = command.lines[command.lines.length - 1];
             var indice, lines = [];
             for (indice = 0; indice < command.lines.length - 1; indice++) {
                 lines[indice] = command.lines[indice];
