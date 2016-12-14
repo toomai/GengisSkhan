@@ -175,6 +175,7 @@ $(document).ready(function() {
         socket = undefined;
         currentUserid = undefined;
         currentCommand = undefined;
+        location.reaload();
     }
 
     function afficherNotif(message, code) {
