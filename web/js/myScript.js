@@ -49,8 +49,8 @@ $(document).ready(function() {
         return false;
     });*/
 
-    io.connect('http://localhost:3000');
-    //io.connect('https://gengiskhan.herokuapp.com:3000');
+    //io.connect('http://localhost:3000');
+    io.connect('https://gengiskhan.herokuapp.com:3000');
     socket.on("connected", function() {
         console.log('socket connected');
     });
