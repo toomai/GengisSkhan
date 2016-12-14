@@ -358,7 +358,7 @@ io.on('connection', function(socket) {
 
         socket.on('modify', function(data) {
             users.get_user(db, data.usr, function(userA) {
-                commands.change_quantity(db, userA, data.commande.command_id, data.line[0], data.line[6], function(commande) {
+                commands.change_quantity(db, userA, userA.commands[userA.commands.length-1].command_id, data.line, data.quantity,data.price, function(commande) {
                   /*  commandMod.change_price(db, userA, commandMod.command_id, data.line[0], data.line[7], function(newCom) {
                         actualiseSocket(data.usr, newCom);
                     });*/

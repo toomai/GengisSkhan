@@ -120,21 +120,21 @@ var remove_line = function(db, user, id_command, id_line, callback) {
 }
 
 //changer qty d'une ligne + ajuster solde
-var change_quantity = function(db, user, id_command, id_line, quantity, callback) {
+var change_quantity = function(db, user, id_command, id_line, quantity, price,callback) {
     get_command(db, user.user_id, id_command, function(command) {
-
         var prix = command.price;
         var i = 0;
         for(; i < command.lines.length ; i++){
           if(command.lines[i].line_id === id_line){
             prix -= command.lines[i].price * command.lines[i].quantity;
-            prix += command.lines[i].price * quantity;
+            prix += price * quantity;
             break;
           }
         }
 
         command.price = prix;
         command.lines[i].quantity = quantity;
+        command.lines[i].price = price;
         user.commands[id_command] = command;
         users.update_user_command(db, user, function(com) { //TO CHECK
           get_last_command(db, user.user_id,function(lastCom){
