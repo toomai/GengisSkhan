@@ -84,6 +84,7 @@ $(document).ready(function() {
                 (line.quantity * line.price), null
             ]).draw(false);
         }
+
     });
     socket.on('error', function(data) {
         console.log('An error occured');
@@ -175,7 +176,7 @@ $(document).ready(function() {
         socket = undefined;
         currentUserid = undefined;
         currentCommand = undefined;
-        location.reaload();
+        location.reload();
     }
 
     function afficherNotif(message, code) {

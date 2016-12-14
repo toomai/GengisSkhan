@@ -327,6 +327,7 @@ function _configureRoutes(app) {
 
 
 var actualiseSocket = function(idUser, commande) {
+  console.log(commande);
     if (tableConnexions[idUser]) {
         tableConnexions[idUser].emit('currentCommand', commande);
     } else {
